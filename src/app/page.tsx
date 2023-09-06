@@ -6,38 +6,25 @@ type Reading = {
   systolic: string;
   diastolic: string;
   pulse: string;
-  arm: "left" | "right"; // enum
+  arm: "Left" | "Right"; // enum
 };
 
-type CurrentReading = Reading & { currentTime: string };
+type BPReading = Reading & { currentTime: string };
 
 export default function Home() {
   const [inputState, setInputState] = useState<Reading>({
     systolic: "",
     diastolic: "",
     pulse: "",
-    arm: "left",
+    arm: "Left",
   });
 
   // const [bpReading, setBpReading] = useState<Reading[]>([]);
-  const [bpReading, setBpReading] = useState<CurrentReading[]>([]);
+  const [bpReading, setBpReading] = useState<BPReading[]>([]);
 
   //Get user input from fields
-  // const handleChange = (e: any) => {
-  //   setInputState((prevInputState) => {
-  //     return { ...prevInputState, [e.target.name]: e.target.value };
-  //   });
-  // };
-
   const handleChange = (e: any) => {
     setInputState((prevInputState) => {
-      if (e.target.name === "arm") {
-        const value = e.target.value;
-        return {
-          ...prevInputState,
-          [e.target.name]: value.charAt(0).toUpperCase() + value.slice(1),
-        };
-      }
       return { ...prevInputState, [e.target.name]: e.target.value };
     });
   };
@@ -58,8 +45,7 @@ export default function Home() {
       ...inputState,
     };
 
-    setBpReading((prevReading: CurrentReading[]) => {
-      // return [inputState, ...prevReading];
+    setBpReading((prevReading: BPReading[]) => {
       return [currentReading, ...prevReading];
     });
 
@@ -67,7 +53,7 @@ export default function Home() {
       systolic: "",
       diastolic: "",
       pulse: "",
-      arm: "left",
+      arm: "Left",
     });
   };
 
@@ -103,12 +89,12 @@ export default function Home() {
             <button
               type="button"
               className={`border ${
-                inputState.arm === "left"
+                inputState.arm === "Left"
                   ? "border-blue-800 bg-blue-100"
                   : "border-gray-700 bg-gray-100"
               }  outline-2 p-3 w-52 rounded-full text-xl`}
               name="arm"
-              value="left"
+              value="Left"
               onClick={handleChange}
             >
               Left Arm
@@ -116,12 +102,12 @@ export default function Home() {
             <button
               type="button"
               className={`border ${
-                inputState.arm === "right"
+                inputState.arm === "Right"
                   ? "border-blue-800 bg-blue-100"
                   : "border-gray-700 bg-gray-100"
               }  outline-2 p-3 w-52 rounded-full text-xl`}
               name="arm"
-              value="right"
+              value="Right"
               onClick={handleChange}
             >
               Right Arm
@@ -129,35 +115,35 @@ export default function Home() {
           </div>
           <button
             type="submit"
-            className="border border-black p-2 max-w-md bg-sky-700"
+            className="border border-black p-2 max-w-md bg-blue-600 text-white"
           >
             Add Readings
           </button>
         </form>
       </div>
       {bpReading.length > 0 && (
-        <table>
-          <thead>
+        <table className="min-w-full text-left text-sm font-light">
+          <thead className="border-b font-medium dark:border-neutral-500">
             <tr>
-              <th>Date/Time</th>
-              <th>Systolic Pressure</th>
-              <th>Diastolic Pressure</th>
-              <th>Pulse Rate</th>
-              <th>Arm</th>
+              <th className="px-6 py-4">Date/Time</th>
+              <th className="px-6 py-4">Systolic Pressure</th>
+              <th className="px-6 py-4">Diastolic Pressure</th>
+              <th className="px-6 py-4">Pulse Rate</th>
+              <th className="px-6 py-4">Arm</th>
             </tr>
           </thead>
           <tbody>
             {bpReading.map((reading, index) => {
-              console.log(reading);
               return (
-                <tr key={index.toString()}>
-                  <td>{reading.currentTime}</td>
-                  <td>{reading.systolic}</td>
-                  <td>{reading.diastolic}</td>
-                  <td>{reading.pulse}</td>
-                  <td>
-                    {reading.arm.charAt(0).toUpperCase() + reading.arm.slice(1)}
-                  </td>
+                <tr
+                  className="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600"
+                  key={index.toString()}
+                >
+                  <td className="px-6 py-4 text-lg">{reading.currentTime}</td>
+                  <td className="px-6 py-4 text-lg">{reading.systolic}</td>
+                  <td className="px-6 py-4 text-lg">{reading.diastolic}</td>
+                  <td className="px-6 py-4 text-lg">{reading.pulse}</td>
+                  <td className="px-6 py-4 text-lg">{reading.arm}</td>
                 </tr>
               );
             })}
