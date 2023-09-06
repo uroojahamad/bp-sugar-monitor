@@ -1,57 +1,42 @@
 "use client";
 import dayjs from "dayjs";
-import { useState } from "react";
+import React, { useState } from "react";
 
 type Reading = {
-  systolic: string;
-  diastolic: string;
-  pulse: string;
-  arm: "Left" | "Right"; // enum
+  sugarLevel: string;
+  measure: "Before Meal" | "After Meal" | "At Bedtime" | "Fasting";
   currentTime: Date;
 };
 
-export default function Home() {
+const Sugar = () => {
   const [inputState, setInputState] = useState<Omit<Reading, "currentTime">>({
-    systolic: "",
-    diastolic: "",
-    pulse: "",
-    arm: "Left",
+    sugarLevel: "",
+    measure: "Before Meal",
   });
 
-  const [bpReading, setBpReading] = useState<Reading[]>([]);
+  const [sugarReading, setSugarReading] = useState<Reading[]>([]);
 
   //Get user input from fields
   const handleChange = (e: any) => {
     setInputState((prevInputState) => {
-      return { ...prevInputState, [e.target.name]: e.target.value };
+      return {
+        ...prevInputState,
+        [e.target.name]: e.target.value,
+      };
     });
   };
 
-  //Submit the details
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    if (
-      inputState.systolic === "" ||
-      inputState.diastolic === "" ||
-      inputState.pulse === ""
-    ) {
-      return alert("Enter all reading to add the details.");
-    }
+    console.log(inputState);
 
     const currentReading = {
       currentTime: new Date(),
       ...inputState,
     };
 
-    setBpReading((prevReading: Reading[]) => {
+    setSugarReading((prevReading: Reading[]) => {
       return [currentReading, ...prevReading];
-    });
-
-    setInputState({
-      systolic: "",
-      diastolic: "",
-      pulse: "",
-      arm: "Left",
     });
   };
 
@@ -62,53 +47,63 @@ export default function Home() {
           <input
             className="border border-black p-2 max-w-lg"
             type="text"
-            name="systolic"
-            placeholder="Enter Systolic Pressure"
-            value={inputState.systolic}
-            onChange={handleChange}
-          />
-          <input
-            className="border border-black p-2 max-w-lg"
-            type="text"
-            name="diastolic"
-            placeholder="Enter Diastolic Pressure"
-            value={inputState.diastolic}
-            onChange={handleChange}
-          />
-          <input
-            className="border border-black p-2 max-w-lg"
-            type="text"
-            name="pulse"
-            placeholder="Enter Pulse reading"
-            value={inputState.pulse}
+            name="sugarLevel"
+            placeholder="Enter Blood Sugar Level"
+            value={inputState.sugarLevel}
             onChange={handleChange}
           />
           <div className="flex gap-3">
             <button
               type="button"
               className={`border ${
-                inputState.arm === "Left"
+                inputState.measure === "Before Meal"
                   ? "border-blue-800 bg-blue-100"
                   : "border-gray-700 bg-gray-100"
               }  outline-2 p-3 w-52 rounded-full text-xl`}
-              name="arm"
-              value="Left"
+              name="measure"
+              value="Before Meal"
               onClick={handleChange}
             >
-              Left Arm
+              Before Meal
             </button>
             <button
               type="button"
               className={`border ${
-                inputState.arm === "Right"
+                inputState.measure === "After Meal"
                   ? "border-blue-800 bg-blue-100"
                   : "border-gray-700 bg-gray-100"
               }  outline-2 p-3 w-52 rounded-full text-xl`}
-              name="arm"
-              value="Right"
+              name="measure"
+              value="After Meal"
               onClick={handleChange}
             >
-              Right Arm
+              After Meal
+            </button>
+            <button
+              type="button"
+              className={`border ${
+                inputState.measure === "At Bedtime"
+                  ? "border-blue-800 bg-blue-100"
+                  : "border-gray-700 bg-gray-100"
+              }  outline-2 p-3 w-52 rounded-full text-xl`}
+              name="measure"
+              value="At Bedtime"
+              onClick={handleChange}
+            >
+              At Bedtime
+            </button>
+            <button
+              type="button"
+              className={`border ${
+                inputState.measure === "Fasting"
+                  ? "border-blue-800 bg-blue-100"
+                  : "border-gray-700 bg-gray-100"
+              }  outline-2 p-3 w-52 rounded-full text-xl`}
+              name="measure"
+              value="Fasting"
+              onClick={handleChange}
+            >
+              Fasting
             </button>
           </div>
           <button
@@ -119,19 +114,18 @@ export default function Home() {
           </button>
         </form>
       </div>
-      {bpReading.length > 0 && (
+
+      {sugarReading.length > 0 && (
         <table className="min-w-fit text-left text-sm font-light mt-5">
           <thead className="border-b font-medium dark:border-neutral-500">
             <tr>
               <th className="px-6 py-4 text-xl">Date/Time</th>
-              <th className="px-6 py-4 text-xl">Systolic Pressure</th>
-              <th className="px-6 py-4 text-xl">Diastolic Pressure</th>
-              <th className="px-6 py-4 text-xl">Pulse Rate</th>
-              <th className="px-6 py-4 text-xl">Arm</th>
+              <th className="px-6 py-4 text-xl">Measure Time</th>
+              <th className="px-6 py-4 text-xl">Blood Sugar Level</th>
             </tr>
           </thead>
           <tbody>
-            {bpReading.map((reading, index) => {
+            {sugarReading.map((reading, index) => {
               return (
                 <tr
                   className="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600"
@@ -140,10 +134,11 @@ export default function Home() {
                   <td className="px-6 py-4 text-lg">
                     {dayjs(reading.currentTime).format("YYYY/MM/DD hh:mm A")}
                   </td>
-                  <td className="px-6 py-4 text-lg">{reading.systolic}</td>
-                  <td className="px-6 py-4 text-lg">{reading.diastolic}</td>
-                  <td className="px-6 py-4 text-lg">{reading.pulse}</td>
-                  <td className="px-6 py-4 text-lg">{reading.arm}</td>
+                  <td className="px-6 py-4 text-lg">{reading.measure}</td>
+                  <td className="px-6 py-4 text-lg">
+                    {reading.sugarLevel}
+                    <span>mg/dL</span>
+                  </td>
                 </tr>
               );
             })}
@@ -152,4 +147,6 @@ export default function Home() {
       )}
     </>
   );
-}
+};
+
+export default Sugar;
