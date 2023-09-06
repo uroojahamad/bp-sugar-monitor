@@ -1,4 +1,5 @@
 "use client";
+import dayjs from "dayjs";
 import { useState } from "react";
 
 type Reading = {
@@ -8,6 +9,8 @@ type Reading = {
   arm: "left" | "right"; // enum
 };
 
+type CurrentReading = Reading & { currentTime: string };
+
 export default function Home() {
   const [inputState, setInputState] = useState<Reading>({
     systolic: "",
@@ -16,9 +19,30 @@ export default function Home() {
     arm: "left",
   });
 
-  const [bpReading, setBpReading] = useState<Reading[]>([]);
+  // const [bpReading, setBpReading] = useState<Reading[]>([]);
+  const [bpReading, setBpReading] = useState<CurrentReading[]>([]);
 
-  //Submmit form data
+  //Get user input from fields
+  // const handleChange = (e: any) => {
+  //   setInputState((prevInputState) => {
+  //     return { ...prevInputState, [e.target.name]: e.target.value };
+  //   });
+  // };
+
+  const handleChange = (e: any) => {
+    setInputState((prevInputState) => {
+      if (e.target.name === "arm") {
+        const value = e.target.value;
+        return {
+          ...prevInputState,
+          [e.target.name]: value.charAt(0).toUpperCase() + value.slice(1),
+        };
+      }
+      return { ...prevInputState, [e.target.name]: e.target.value };
+    });
+  };
+
+  //Submit the details
   const handleSubmit = (e: any) => {
     e.preventDefault();
     if (
@@ -29,8 +53,14 @@ export default function Home() {
       return alert("Enter all reading to add the details.");
     }
 
-    setBpReading((prevReading: Reading[]) => {
-      return [inputState, ...prevReading];
+    const currentReading = {
+      currentTime: dayjs().format("YYYY/MM/DD hh:mm A"),
+      ...inputState,
+    };
+
+    setBpReading((prevReading: CurrentReading[]) => {
+      // return [inputState, ...prevReading];
+      return [currentReading, ...prevReading];
     });
 
     setInputState({
@@ -38,13 +68,6 @@ export default function Home() {
       diastolic: "",
       pulse: "",
       arm: "left",
-    });
-  };
-
-  //Get user input from fields
-  const handleChange = (e: any) => {
-    setInputState((prevInputState) => {
-      return { ...prevInputState, [e.target.name]: e.target.value };
     });
   };
 
@@ -104,7 +127,10 @@ export default function Home() {
               Right Arm
             </button>
           </div>
-          <button type="submit" className="border border-black p-2 max-w-md">
+          <button
+            type="submit"
+            className="border border-black p-2 max-w-md bg-sky-700"
+          >
             Add Readings
           </button>
         </form>
@@ -113,6 +139,7 @@ export default function Home() {
         <table>
           <thead>
             <tr>
+              <th>Date/Time</th>
               <th>Systolic Pressure</th>
               <th>Diastolic Pressure</th>
               <th>Pulse Rate</th>
@@ -121,12 +148,16 @@ export default function Home() {
           </thead>
           <tbody>
             {bpReading.map((reading, index) => {
+              console.log(reading);
               return (
                 <tr key={index.toString()}>
+                  <td>{reading.currentTime}</td>
                   <td>{reading.systolic}</td>
                   <td>{reading.diastolic}</td>
                   <td>{reading.pulse}</td>
-                  <td>{reading.arm}</td>
+                  <td>
+                    {reading.arm.charAt(0).toUpperCase() + reading.arm.slice(1)}
+                  </td>
                 </tr>
               );
             })}
