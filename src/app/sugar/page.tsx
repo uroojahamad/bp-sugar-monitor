@@ -31,28 +31,19 @@ const Sugar = () => {
   };
 
   //Insert data into supabase
-  const insertSugarData = async () => {
-    const { data, error } = await supabase.from("bloodsugar").insert([
-      {
-        sugar_level: Number(inputState.sugar_level),
-        measure: inputState.measure,
-      },
-    ]);
-
-    console.log(data);
-    console.log(error);
+  const insertSugarData = async (reading: Reading) => {
+    await supabase.from("bloodsugar").insert([reading]);
   };
 
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = (e: any) => {
     e.preventDefault();
-    console.log(inputState);
-    console.log(Number(inputState.sugar_level));
     const currentReading = {
-      currentTime: new Date(),
+      id: (sugarReading.slice(-1)[0]?.id || 0) + 1,
+      created_at: new Date(),
       ...inputState,
     };
 
-    setSugarReading((prevReading: Reading[]) => {
+    setSugarReading((prevReading) => {
       return [currentReading, ...prevReading];
     });
 
@@ -61,15 +52,13 @@ const Sugar = () => {
       measure: "Before Meal",
     });
 
-    await insertSugarData();
+    insertSugarData(currentReading);
   };
 
   //Get data from supabase
   const getSugarData = async () => {
-    let { data, error } = await supabase.from("bloodsugar").select(`*`);
-    console.log(data);
-    console.log(error);
-    setSugarReading(data);
+    const { data, error } = await supabase.from("bloodsugar").select(`*`);
+    if (data) setSugarReading(data);
   };
 
   useEffect(() => {
