@@ -71,10 +71,10 @@ const Sugar = () => {
         <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
           <input
             className="border border-black p-2 max-w-lg"
-            type="text"
+            type="number"
             name="sugar_level"
             placeholder="Enter Blood Sugar Level"
-            value={inputState.sugar_level === 0 ? "" : inputState.sugar_level}
+            value={inputState.sugar_level || ""}
             onChange={handleChange}
           />
           <div className="flex gap-3">
@@ -154,7 +154,7 @@ const Sugar = () => {
               return (
                 <tr
                   className="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600"
-                  key={index.toString()}
+                  key={reading.id}
                 >
                   <td className="px-6 py-4 text-lg">
                     {dayjs(reading.created_at).format("YYYY/MM/DD hh:mm A")}

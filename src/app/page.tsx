@@ -1,20 +1,24 @@
 "use client";
 import dayjs from "dayjs";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { supabase } from "@/supabase/client";
 
 type Reading = {
-  systolic: string;
-  diastolic: string;
-  pulse: string;
+  id: number;
+  systolic: number;
+  diastolic: number;
+  pulse: number;
   arm: "Left" | "Right"; // enum
-  currentTime: Date;
+  created_at: Date;
 };
 
 export default function Home() {
-  const [inputState, setInputState] = useState<Omit<Reading, "currentTime">>({
-    systolic: "",
-    diastolic: "",
-    pulse: "",
+  const [inputState, setInputState] = useState<
+    Omit<Reading, "id" | "created_at">
+  >({
+    systolic: 0,
+    diastolic: 0,
+    pulse: 0,
     arm: "Left",
   });
 
@@ -27,19 +31,25 @@ export default function Home() {
     });
   };
 
+  //Insert data into supabase
+  const insertBPData = async (reading: Reading) => {
+    await supabase.from("bp").insert([reading]);
+  };
+
   //Submit the details
   const handleSubmit = (e: any) => {
     e.preventDefault();
     if (
-      inputState.systolic === "" ||
-      inputState.diastolic === "" ||
-      inputState.pulse === ""
+      inputState.systolic === 0 ||
+      inputState.diastolic === 0 ||
+      inputState.pulse === 0
     ) {
       return alert("Enter all reading to add the details.");
     }
 
     const currentReading = {
-      currentTime: new Date(),
+      id: (bpReading.slice(-1)[0]?.id || 0) + 1,
+      created_at: new Date(),
       ...inputState,
     };
 
@@ -48,12 +58,24 @@ export default function Home() {
     });
 
     setInputState({
-      systolic: "",
-      diastolic: "",
-      pulse: "",
+      systolic: 0,
+      diastolic: 0,
+      pulse: 0,
       arm: "Left",
     });
+
+    insertBPData(currentReading);
   };
+
+  //Get blood pressure data from supabase
+  const getBPData = async () => {
+    const { data, error } = await supabase.from("bp").select(`*`);
+    if (data) setBpReading(data);
+  };
+
+  useEffect(() => {
+    getBPData();
+  }, []);
 
   return (
     <>
@@ -61,26 +83,26 @@ export default function Home() {
         <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
           <input
             className="border border-black p-2 max-w-lg"
-            type="text"
+            type="number"
             name="systolic"
             placeholder="Enter Systolic Pressure"
-            value={inputState.systolic}
+            value={inputState.systolic || ""}
             onChange={handleChange}
           />
           <input
             className="border border-black p-2 max-w-lg"
-            type="text"
+            type="number"
             name="diastolic"
             placeholder="Enter Diastolic Pressure"
-            value={inputState.diastolic}
+            value={inputState.diastolic || ""}
             onChange={handleChange}
           />
           <input
             className="border border-black p-2 max-w-lg"
-            type="text"
+            type="number"
             name="pulse"
             placeholder="Enter Pulse reading"
-            value={inputState.pulse}
+            value={inputState.pulse || ""}
             onChange={handleChange}
           />
           <div className="flex gap-3">
@@ -131,14 +153,14 @@ export default function Home() {
             </tr>
           </thead>
           <tbody>
-            {bpReading.map((reading, index) => {
+            {bpReading.map((reading) => {
               return (
                 <tr
                   className="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600"
-                  key={index.toString()}
+                  key={reading.id}
                 >
                   <td className="px-6 py-4 text-lg">
-                    {dayjs(reading.currentTime).format("YYYY/MM/DD hh:mm A")}
+                    {dayjs(reading.created_at).format("YYYY/MM/DD hh:mm A")}
                   </td>
                   <td className="px-6 py-4 text-lg">{reading.systolic}</td>
                   <td className="px-6 py-4 text-lg">{reading.diastolic}</td>
