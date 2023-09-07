@@ -1,16 +1,20 @@
 "use client";
+import { supabase } from "@/supabase/client";
 import dayjs from "dayjs";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 type Reading = {
-  sugarLevel: string;
+  id: number;
+  sugar_level: number;
   measure: "Before Meal" | "After Meal" | "At Bedtime" | "Fasting";
-  currentTime: Date;
+  created_at: Date;
 };
 
 const Sugar = () => {
-  const [inputState, setInputState] = useState<Omit<Reading, "currentTime">>({
-    sugarLevel: "",
+  const [inputState, setInputState] = useState<
+    Omit<Reading, "id" | "created_at">
+  >({
+    sugar_level: 0,
     measure: "Before Meal",
   });
 
@@ -26,10 +30,23 @@ const Sugar = () => {
     });
   };
 
-  const handleSubmit = (e: any) => {
+  //Insert data into supabase
+  const insertSugarData = async () => {
+    const { data, error } = await supabase.from("bloodsugar").insert([
+      {
+        sugar_level: Number(inputState.sugar_level),
+        measure: inputState.measure,
+      },
+    ]);
+
+    console.log(data);
+    console.log(error);
+  };
+
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
     console.log(inputState);
-
+    console.log(Number(inputState.sugar_level));
     const currentReading = {
       currentTime: new Date(),
       ...inputState,
@@ -38,7 +55,26 @@ const Sugar = () => {
     setSugarReading((prevReading: Reading[]) => {
       return [currentReading, ...prevReading];
     });
+
+    setInputState({
+      sugar_level: 0,
+      measure: "Before Meal",
+    });
+
+    await insertSugarData();
   };
+
+  //Get data from supabase
+  const getSugarData = async () => {
+    let { data, error } = await supabase.from("bloodsugar").select(`*`);
+    console.log(data);
+    console.log(error);
+    setSugarReading(data);
+  };
+
+  useEffect(() => {
+    getSugarData();
+  }, []);
 
   return (
     <>
@@ -47,9 +83,9 @@ const Sugar = () => {
           <input
             className="border border-black p-2 max-w-lg"
             type="text"
-            name="sugarLevel"
+            name="sugar_level"
             placeholder="Enter Blood Sugar Level"
-            value={inputState.sugarLevel}
+            value={inputState.sugar_level === 0 ? "" : inputState.sugar_level}
             onChange={handleChange}
           />
           <div className="flex gap-3">
@@ -132,11 +168,11 @@ const Sugar = () => {
                   key={index.toString()}
                 >
                   <td className="px-6 py-4 text-lg">
-                    {dayjs(reading.currentTime).format("YYYY/MM/DD hh:mm A")}
+                    {dayjs(reading.created_at).format("YYYY/MM/DD hh:mm A")}
                   </td>
                   <td className="px-6 py-4 text-lg">{reading.measure}</td>
                   <td className="px-6 py-4 text-lg">
-                    {reading.sugarLevel}
+                    {reading.sugar_level}
                     <span>mg/dL</span>
                   </td>
                 </tr>
