@@ -1,4 +1,6 @@
 "use client";
+import AddBloodSugarDetails from "@/components/bloodsugar/AddBloodSugarDetails";
+import DisplayBloodSugarDetails from "@/components/bloodsugar/DisplayBloodSugarDetails";
 import { supabase } from "@/supabase/client";
 import dayjs from "dayjs";
 import React, { useState, useEffect } from "react";
@@ -67,7 +69,15 @@ const Sugar = () => {
 
   return (
     <>
-      <div>
+      <div className="border border-black mx-auto p-5 flex flex-col justify-center items-center">
+        <AddBloodSugarDetails
+          inputState={inputState}
+          handleSubmit={handleSubmit}
+          handleChange={handleChange}
+        />
+        <DisplayBloodSugarDetails sugarReading={sugarReading} />
+      </div>
+      {/* <div>
         <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
           <input
             className="border border-black p-2 max-w-lg"
@@ -138,9 +148,9 @@ const Sugar = () => {
             Add Readings
           </button>
         </form>
-      </div>
+      </div> */}
 
-      {sugarReading.length > 0 && (
+      {/* {sugarReading.length > 0 && (
         <table className="min-w-fit text-left text-sm font-light mt-5">
           <thead className="border-b font-medium dark:border-neutral-500">
             <tr>
@@ -169,7 +179,7 @@ const Sugar = () => {
             })}
           </tbody>
         </table>
-      )}
+      )} */}
     </>
   );
 };
