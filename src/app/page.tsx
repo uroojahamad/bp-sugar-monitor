@@ -2,8 +2,10 @@
 import dayjs from "dayjs";
 import { useState, useEffect } from "react";
 import { supabase } from "@/supabase/client";
+import AddBPDetails from "@/components/bloodpressure/AddBPDetails";
+import DisplayBPDetails from "@/components/bloodpressure/DisplayBPDetails";
 
-type Reading = {
+export type Reading = {
   id: number;
   systolic: number;
   diastolic: number;
@@ -13,63 +15,14 @@ type Reading = {
 };
 
 export default function Home() {
-  const [inputState, setInputState] = useState<
-    Omit<Reading, "id" | "created_at">
-  >({
-    systolic: 0,
-    diastolic: 0,
-    pulse: 0,
-    arm: "Left",
-  });
-
   const [bpReading, setBpReading] = useState<Reading[]>([]);
-
-  //Get user input from fields
-  const handleChange = (e: any) => {
-    setInputState((prevInputState) => {
-      return { ...prevInputState, [e.target.name]: e.target.value };
-    });
-  };
-
-  //Insert data into supabase
-  const insertBPData = async (reading: Reading) => {
-    await supabase.from("bp").insert([reading]);
-  };
-
-  //Submit the details
-  const handleSubmit = (e: any) => {
-    e.preventDefault();
-    if (
-      inputState.systolic === 0 ||
-      inputState.diastolic === 0 ||
-      inputState.pulse === 0
-    ) {
-      return alert("Enter all reading to add the details.");
-    }
-
-    const currentReading = {
-      id: (bpReading.slice(-1)[0]?.id || 0) + 1,
-      created_at: new Date(),
-      ...inputState,
-    };
-
-    setBpReading((prevReading: Reading[]) => {
-      return [currentReading, ...prevReading];
-    });
-
-    setInputState({
-      systolic: 0,
-      diastolic: 0,
-      pulse: 0,
-      arm: "Left",
-    });
-
-    insertBPData(currentReading);
-  };
 
   //Get blood pressure data from supabase
   const getBPData = async () => {
-    const { data, error } = await supabase.from("bp").select(`*`);
+    const { data, error } = await supabase
+      .from("bp")
+      .select(`*`)
+      .order("id", { ascending: false });
     if (data) setBpReading(data);
   };
 
@@ -79,7 +32,12 @@ export default function Home() {
 
   return (
     <>
-      <div>
+      <AddBPDetails
+        lastID={bpReading.slice(-1)[0]?.id || 0}
+        setBpReading={setBpReading}
+      />
+      <DisplayBPDetails bpReading={bpReading} />
+      {/* <div>
         <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
           <input
             className="border border-black p-2 max-w-lg"
@@ -140,8 +98,8 @@ export default function Home() {
             Add Readings
           </button>
         </form>
-      </div>
-      {bpReading.length > 0 && (
+      </div> */}
+      {/* {bpReading.length > 0 && (
         <table className="min-w-fit text-left text-sm font-light mt-5">
           <thead className="border-b font-medium dark:border-neutral-500">
             <tr>
@@ -171,7 +129,7 @@ export default function Home() {
             })}
           </tbody>
         </table>
-      )}
+      )} */}
     </>
   );
 }

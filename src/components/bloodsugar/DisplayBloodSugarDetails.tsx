@@ -1,13 +1,9 @@
 import React from "react";
 import dayjs from "dayjs";
+import { Reading } from "@/app/sugar/page";
 
 type DisplayDetailsProps = {
-  sugarReading: {
-    id: number;
-    sugar_level: number;
-    measure: "Before Meal" | "After Meal" | "At Bedtime" | "Fasting";
-    created_at: Date;
-  }[];
+  sugarReading: Reading[];
 };
 
 const DisplayBloodSugarDetails = ({ sugarReading }: DisplayDetailsProps) => {
