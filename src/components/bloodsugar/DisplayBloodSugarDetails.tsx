@@ -12,28 +12,28 @@ type DisplayDetailsProps = {
 
 const DisplayBloodSugarDetails = ({ sugarReading }: DisplayDetailsProps) => {
   return (
-    <div className="border border-black max-w-5xl mx-auto p-5 flex justify-center items-center">
+    <div className="w-2/4 overflow-x-auto shadow-md sm:rounded-lg mt-4">
       {sugarReading.length > 0 && (
-        <table className="min-w-full text-left text-sm font-light mt-5">
-          <thead className="border-b font-medium dark:border-neutral-500">
+        <table className="min-w-full text-sm text-left text-gray-500 dark:text-gray-400">
+          <thead className="text-lg text-gray-700 bg-blue-300 dark:bg-gray-700 dark:text-gray-400">
             <tr>
-              <th className="px-6 py-4 text-xl">Date/Time</th>
-              <th className="px-6 py-4 text-xl">Measure Time</th>
-              <th className="px-6 py-4 text-xl">Blood Sugar Level</th>
+              <th className="px-6 py-4">Date/Time</th>
+              <th className="px-6 py-4">Measure Time</th>
+              <th className="px-6 py-4">Blood Sugar Level</th>
             </tr>
           </thead>
           <tbody>
             {sugarReading.map((reading, index) => {
               return (
                 <tr
-                  className="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600"
+                  className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600"
                   key={reading.id}
                 >
-                  <td className="px-6 py-4 text-lg">
+                  <td className="px-6 py-4 text-md">
                     {dayjs(reading.created_at).format("YYYY/MM/DD hh:mm A")}
                   </td>
-                  <td className="px-6 py-4 text-lg">{reading.measure}</td>
-                  <td className="px-6 py-4 text-lg">
+                  <td className="px-6 py-4 text-md">{reading.measure}</td>
+                  <td className="px-6 py-4 text-md">
                     {reading.sugar_level}
                     <span>mg/dL</span>
                   </td>

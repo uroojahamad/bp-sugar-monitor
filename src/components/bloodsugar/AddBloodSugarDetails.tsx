@@ -17,10 +17,10 @@ const AddBloodSugarDetails = ({
   console.log(inputState);
   return (
     <>
-      <div className="border border-black max-w-5xl mx-auto p-5 flex justify-center items-center">
+      <div className="border w-2/4 mx-auto p-3 flex justify-center items-center shadow-md sm:rounded-lg">
         <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
           <input
-            className="p-2 w-11/12 rounded border bg-transparent leading-[1.6] outline-none text-lg"
+            className="p-3 text-lg border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block min-w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             type="number"
             name="sugar_level"
             placeholder="Enter Blood Sugar Level"
@@ -34,7 +34,7 @@ const AddBloodSugarDetails = ({
                 inputState.measure === "Before Meal"
                   ? "border-blue-800 bg-blue-100"
                   : "border-gray-700 bg-gray-100 hover:bg-green-200"
-              }  outline-2 p-3 w-40 rounded-full text-xl`}
+              }  outline-2 p-1 w-32 rounded-full text-md`}
               name="measure"
               value="Before Meal"
               onClick={handleChange}
@@ -47,7 +47,7 @@ const AddBloodSugarDetails = ({
                 inputState.measure === "After Meal"
                   ? "border-blue-800 bg-blue-100"
                   : "border-gray-700 bg-gray-100 hover:bg-green-200"
-              }  outline-2 p-3 w-40 rounded-full text-xl`}
+              }  outline-2 p-1 w-32 rounded-full text-md`}
               name="measure"
               value="After Meal"
               onClick={handleChange}
@@ -60,7 +60,7 @@ const AddBloodSugarDetails = ({
                 inputState.measure === "At Bedtime"
                   ? "border-blue-800 bg-blue-100"
                   : "border-gray-700 bg-gray-100 hover:bg-green-200"
-              }  outline-2 p-3 w-40 rounded-full text-xl`}
+              }  outline-2 p-1 w-32 rounded-full text-md`}
               name="measure"
               value="At Bedtime"
               onClick={handleChange}
@@ -73,7 +73,7 @@ const AddBloodSugarDetails = ({
                 inputState.measure === "Fasting"
                   ? "border-blue-800 bg-blue-100"
                   : "border-gray-700 bg-gray-100 hover:bg-green-200"
-              }  outline-2 p-3 w-40 rounded-full text-xl`}
+              }  outline-2 p-1 w-32 rounded-full text-md`}
               name="measure"
               value="Fasting"
               onClick={handleChange}
