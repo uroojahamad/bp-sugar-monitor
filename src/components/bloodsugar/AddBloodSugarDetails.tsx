@@ -1,20 +1,58 @@
-import React from "react";
+import { Reading } from "@/app/sugar/page";
+import { supabase } from "@/supabase/client";
+import React, { Dispatch, SetStateAction, useState } from "react";
 
-type AddDetailsProps = {
-  inputState: {
-    sugar_level: number;
-    measure: "Before Meal" | "After Meal" | "At Bedtime" | "Fasting";
-  };
-  handleSubmit: (e: any) => void;
-  handleChange: (e: any) => void;
+type AddBloodSugarDetailsProps = {
+  setSugarReading: Dispatch<SetStateAction<Reading[]>>;
+  lastID: number;
 };
 
 const AddBloodSugarDetails = ({
-  inputState,
-  handleSubmit,
-  handleChange,
-}: AddDetailsProps) => {
-  console.log(inputState);
+  setSugarReading,
+  lastID,
+}: AddBloodSugarDetailsProps) => {
+  const [inputState, setInputState] = useState<
+    Omit<Reading, "id" | "created_at">
+  >({
+    sugar_level: 0,
+    measure: "Before Meal",
+  });
+
+  //Get user input from fields
+  const handleChange = (e: any) => {
+    setInputState((prevInputState) => {
+      return {
+        ...prevInputState,
+        [e.target.name]: e.target.value,
+      };
+    });
+  };
+
+  //Insert data into supabase
+  const insertSugarData = async (reading: Reading) => {
+    await supabase.from("bloodsugar").insert([reading]);
+  };
+
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+    const currentReading = {
+      id: lastID + 1,
+      created_at: new Date(),
+      ...inputState,
+    };
+
+    setSugarReading((prevReading: Reading[]) => {
+      return [currentReading, ...prevReading];
+    });
+
+    setInputState({
+      sugar_level: 0,
+      measure: "Before Meal",
+    });
+
+    insertSugarData(currentReading);
+  };
+
   return (
     <>
       <div className="border w-2/4 mx-auto p-3 flex justify-center items-center shadow-md sm:rounded-lg">

@@ -2,10 +2,9 @@
 import AddBloodSugarDetails from "@/components/bloodsugar/AddBloodSugarDetails";
 import DisplayBloodSugarDetails from "@/components/bloodsugar/DisplayBloodSugarDetails";
 import { supabase } from "@/supabase/client";
-import dayjs from "dayjs";
 import React, { useState, useEffect } from "react";
 
-type Reading = {
+export type Reading = {
   id: number;
   sugar_level: number;
   measure: "Before Meal" | "After Meal" | "At Bedtime" | "Fasting";
@@ -13,53 +12,14 @@ type Reading = {
 };
 
 const Sugar = () => {
-  const [inputState, setInputState] = useState<
-    Omit<Reading, "id" | "created_at">
-  >({
-    sugar_level: 0,
-    measure: "Before Meal",
-  });
-
   const [sugarReading, setSugarReading] = useState<Reading[]>([]);
-
-  //Get user input from fields
-  const handleChange = (e: any) => {
-    setInputState((prevInputState) => {
-      return {
-        ...prevInputState,
-        [e.target.name]: e.target.value,
-      };
-    });
-  };
-
-  //Insert data into supabase
-  const insertSugarData = async (reading: Reading) => {
-    await supabase.from("bloodsugar").insert([reading]);
-  };
-
-  const handleSubmit = (e: any) => {
-    e.preventDefault();
-    const currentReading = {
-      id: (sugarReading.slice(-1)[0]?.id || 0) + 1,
-      created_at: new Date(),
-      ...inputState,
-    };
-
-    setSugarReading((prevReading) => {
-      return [currentReading, ...prevReading];
-    });
-
-    setInputState({
-      sugar_level: 0,
-      measure: "Before Meal",
-    });
-
-    insertSugarData(currentReading);
-  };
 
   //Get data from supabase
   const getSugarData = async () => {
-    const { data, error } = await supabase.from("bloodsugar").select(`*`);
+    const { data, error } = await supabase
+      .from("bloodsugar")
+      .select(`*`)
+      .order("id", { ascending: false });
     if (data) setSugarReading(data);
   };
 
@@ -71,12 +31,12 @@ const Sugar = () => {
     <>
       <div className="border border-black mx-auto p-5 flex flex-col justify-center items-center">
         <AddBloodSugarDetails
-          inputState={inputState}
-          handleSubmit={handleSubmit}
-          handleChange={handleChange}
+          lastID={sugarReading.slice(-1)[0]?.id || 0}
+          setSugarReading={setSugarReading}
         />
         <DisplayBloodSugarDetails sugarReading={sugarReading} />
       </div>
+
       {/* <div>
         <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
           <input
