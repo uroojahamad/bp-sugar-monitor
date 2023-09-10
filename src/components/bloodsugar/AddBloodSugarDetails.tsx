@@ -1,4 +1,4 @@
-import { Reading } from "@/app/sugar/page";
+import { Reading } from "@/app/bloodsugar/page";
 import { supabase } from "@/supabase/client";
 import React, { Dispatch, SetStateAction, useState } from "react";
 

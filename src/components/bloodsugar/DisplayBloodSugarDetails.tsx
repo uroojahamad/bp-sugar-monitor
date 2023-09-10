@@ -1,6 +1,6 @@
 import React from "react";
 import dayjs from "dayjs";
-import { Reading } from "@/app/sugar/page";
+import { Reading } from "@/app/bloodsugar/page";
 
 type DisplayDetailsProps = {
   sugarReading: Reading[];
