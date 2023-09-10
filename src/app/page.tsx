@@ -4,6 +4,9 @@ import { useState, useEffect } from "react";
 import { supabase } from "@/supabase/client";
 import AddBPDetails from "@/components/bloodpressure/AddBPDetails";
 import DisplayBPDetails from "@/components/bloodpressure/DisplayBPDetails";
+import BloodPressure from "@/components/bloodpressure/BloodPressure";
+import ModalBox from "@/components/modalbox/ModalBox";
+import Header from "@/components/header/Header";
 
 export type Reading = {
   id: number;
@@ -16,6 +19,17 @@ export type Reading = {
 
 export default function Home() {
   const [bpReading, setBpReading] = useState<Reading[]>([]);
+
+  //State for Modal box
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleModalBoxOpen = () => {
+    setIsOpen(true);
+  };
+
+  const handleModalBoxClose = () => {
+    setIsOpen(false);
+  };
 
   //Get blood pressure data from supabase
   const getBPData = async () => {
@@ -32,11 +46,22 @@ export default function Home() {
 
   return (
     <>
-      <AddBPDetails
+      <Header />
+      <div className="mx-auto p-2 flex flex-col justify-center items-center bg-slate-100">
+        <BloodPressure handleModalBoxOpen={handleModalBoxOpen} />
+        {isOpen && (
+          <ModalBox
+            heading="Contact Us Via Email"
+            description="Any question? Send us an email at prolog@profy.dev. We usually answer within 24 hours."
+            onClose={handleModalBoxClose}
+          />
+        )}
+      </div>
+      {/* <AddBPDetails
         lastID={bpReading.slice(-1)[0]?.id || 0}
         setBpReading={setBpReading}
       />
-      <DisplayBPDetails bpReading={bpReading} />
+      <DisplayBPDetails bpReading={bpReading} /> */}
       {/* <div>
         <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
           <input
