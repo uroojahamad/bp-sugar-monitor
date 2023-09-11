@@ -1,6 +1,9 @@
 "use client";
 import AddBloodSugarDetails from "@/components/bloodsugar/AddBloodSugarDetails";
+import BloodSugar from "@/components/bloodsugar/BloodSugar";
 import DisplayBloodSugarDetails from "@/components/bloodsugar/DisplayBloodSugarDetails";
+import Header from "@/components/header/Header";
+import ModalBox from "@/components/modalbox/ModalBox";
 import { supabase } from "@/supabase/client";
 import React, { useState, useEffect } from "react";
 
@@ -13,6 +16,17 @@ export type Reading = {
 
 const Sugar = () => {
   const [sugarReading, setSugarReading] = useState<Reading[]>([]);
+
+  //State for Modal box
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleModalBoxOpen = () => {
+    setIsOpen(true);
+  };
+
+  const handleModalBoxClose = () => {
+    setIsOpen(false);
+  };
 
   //Get data from supabase
   const getSugarData = async () => {
@@ -29,12 +43,24 @@ const Sugar = () => {
 
   return (
     <>
-      <div className="border border-black mx-auto p-5 flex flex-col justify-center items-center">
-        <AddBloodSugarDetails
+      <Header />
+      <div className="mx-auto p-2 flex flex-col justify-center items-center bg-slate-100">
+        <BloodSugar handleModalBoxOpen={handleModalBoxOpen} />
+        {isOpen && (
+          <ModalBox onClose={handleModalBoxClose}>
+            <AddBloodSugarDetails
+              lastID={sugarReading.slice(-1)[0]?.id || 0}
+              setSugarReading={setSugarReading}
+              onClose={handleModalBoxClose}
+            />
+          </ModalBox>
+        )}
+
+        {/* <AddBloodSugarDetails
           lastID={sugarReading.slice(-1)[0]?.id || 0}
           setSugarReading={setSugarReading}
         />
-        <DisplayBloodSugarDetails sugarReading={sugarReading} />
+        <DisplayBloodSugarDetails sugarReading={sugarReading} /> */}
       </div>
 
       {/* <div>
