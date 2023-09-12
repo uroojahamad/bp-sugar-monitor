@@ -1,6 +1,5 @@
 "use client";
 import AddBloodSugarDetails from "@/components/bloodsugar/AddBloodSugarDetails";
-import BloodSugar from "@/components/bloodsugar/BloodSugar";
 import DisplayBloodSugarDetails from "@/components/bloodsugar/DisplayBloodSugarDetails";
 import Header from "@/components/header/Header";
 import ModalBox from "@/components/modalbox/ModalBox";
@@ -42,131 +41,46 @@ const Sugar = () => {
   }, []);
 
   return (
-    <>
+    <div className="w-full">
       <Header />
-      <div className="mx-auto p-2 flex flex-col justify-center items-center bg-slate-100">
-        <BloodSugar handleModalBoxOpen={handleModalBoxOpen} />
-        {isOpen && (
-          <ModalBox onClose={handleModalBoxClose}>
-            <AddBloodSugarDetails
-              lastID={sugarReading.slice(-1)[0]?.id || 0}
-              setSugarReading={setSugarReading}
-              onClose={handleModalBoxClose}
-            />
-          </ModalBox>
-        )}
-
-        {/* <AddBloodSugarDetails
-          lastID={sugarReading.slice(-1)[0]?.id || 0}
-          setSugarReading={setSugarReading}
-        />
-        <DisplayBloodSugarDetails sugarReading={sugarReading} /> */}
-      </div>
-
-      {/* <div>
-        <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
-          <input
-            className="border border-black p-2 max-w-lg"
-            type="number"
-            name="sugar_level"
-            placeholder="Enter Blood Sugar Level"
-            value={inputState.sugar_level || ""}
-            onChange={handleChange}
-          />
-          <div className="flex gap-3">
-            <button
-              type="button"
-              className={`border ${
-                inputState.measure === "Before Meal"
-                  ? "border-blue-800 bg-blue-100"
-                  : "border-gray-700 bg-gray-100"
-              }  outline-2 p-3 w-52 rounded-full text-xl`}
-              name="measure"
-              value="Before Meal"
-              onClick={handleChange}
-            >
-              Before Meal
-            </button>
-            <button
-              type="button"
-              className={`border ${
-                inputState.measure === "After Meal"
-                  ? "border-blue-800 bg-blue-100"
-                  : "border-gray-700 bg-gray-100"
-              }  outline-2 p-3 w-52 rounded-full text-xl`}
-              name="measure"
-              value="After Meal"
-              onClick={handleChange}
-            >
-              After Meal
-            </button>
-            <button
-              type="button"
-              className={`border ${
-                inputState.measure === "At Bedtime"
-                  ? "border-blue-800 bg-blue-100"
-                  : "border-gray-700 bg-gray-100"
-              }  outline-2 p-3 w-52 rounded-full text-xl`}
-              name="measure"
-              value="At Bedtime"
-              onClick={handleChange}
-            >
-              At Bedtime
-            </button>
-            <button
-              type="button"
-              className={`border ${
-                inputState.measure === "Fasting"
-                  ? "border-blue-800 bg-blue-100"
-                  : "border-gray-700 bg-gray-100"
-              }  outline-2 p-3 w-52 rounded-full text-xl`}
-              name="measure"
-              value="Fasting"
-              onClick={handleChange}
-            >
-              Fasting
-            </button>
-          </div>
+      <div className="mx-auto p-4 flex flex-col justify-center items-center bg-slate-100">
+        <div
+          className={`flex flex-col md:gap-1 ${
+            sugarReading.length === 0
+              ? "justify-center"
+              : "overflow-y-auto no-scrollbar"
+          } items-center h-screen bg-slate-100 rounded-2xl max-w-full max-h-full`}
+        >
           <button
-            type="submit"
-            className="border border-black p-2 max-w-md bg-blue-600 text-white"
+            className="w-full flex justify-center items-center p-2 space-x-4 font-sans font-bold text-white rounded-full shadow-lg px-9 bg-cyan-700 shadow-cyan-100 hover:bg-opacity-90 hover:shadow-lg border transition hover:-translate-y-0.5 duration-150 mb-3"
+            onClick={handleModalBoxOpen}
           >
-            Add Readings
+            Add
           </button>
-        </form>
-      </div> */}
-
-      {/* {sugarReading.length > 0 && (
-        <table className="min-w-fit text-left text-sm font-light mt-5">
-          <thead className="border-b font-medium dark:border-neutral-500">
-            <tr>
-              <th className="px-6 py-4 text-xl">Date/Time</th>
-              <th className="px-6 py-4 text-xl">Measure Time</th>
-              <th className="px-6 py-4 text-xl">Blood Sugar Level</th>
-            </tr>
-          </thead>
-          <tbody>
-            {sugarReading.map((reading, index) => {
-              return (
-                <tr
-                  className="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600"
-                  key={reading.id}
-                >
-                  <td className="px-6 py-4 text-lg">
-                    {dayjs(reading.created_at).format("YYYY/MM/DD hh:mm A")}
-                  </td>
-                  <td className="px-6 py-4 text-lg">{reading.measure}</td>
-                  <td className="px-6 py-4 text-lg">
-                    {reading.sugar_level}
-                    <span>mg/dL</span>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      )} */}
-    </>
+          {sugarReading.length === 0 ? (
+            <div className="w-full p-5 md:p-10">
+              <div className="flex flex-col justify-between items-center gap-10">
+                <div className="text-lg font-extralight">
+                  <p className="text-center">No records to show</p>
+                  <p>Press + to add your records</p>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <DisplayBloodSugarDetails sugarReading={sugarReading} />
+          )}
+        </div>
+      </div>
+      {isOpen && (
+        <ModalBox onClose={handleModalBoxClose}>
+          <AddBloodSugarDetails
+            lastID={sugarReading.slice(-1)[0]?.id || 0}
+            setSugarReading={setSugarReading}
+            onClose={handleModalBoxClose}
+          />
+        </ModalBox>
+      )}
+    </div>
   );
 };
 

@@ -1,10 +1,8 @@
 "use client";
-import dayjs from "dayjs";
 import { useState, useEffect } from "react";
 import { supabase } from "@/supabase/client";
 import AddBPDetails from "@/components/bloodpressure/AddBPDetails";
 import DisplayBPDetails from "@/components/bloodpressure/DisplayBPDetails";
-import BloodPressure from "@/components/bloodpressure/BloodPressure";
 import ModalBox from "@/components/modalbox/ModalBox";
 import Header from "@/components/header/Header";
 
@@ -13,7 +11,7 @@ export type Reading = {
   systolic: number;
   diastolic: number;
   pulse: number;
-  arm: "Left" | "Right"; // enum
+  arm: "Left" | "Right";
   created_at: Date;
 };
 
@@ -33,7 +31,7 @@ export default function Home() {
 
   //Get blood pressure data from supabase
   const getBPData = async () => {
-    const { data, error } = await supabase
+    const { data } = await supabase
       .from("bp")
       .select(`*`)
       .order("id", { ascending: false });
@@ -45,116 +43,45 @@ export default function Home() {
   }, []);
 
   return (
-    <>
+    <div className="w-full">
       <Header />
       <div className="mx-auto p-2 flex flex-col justify-center items-center bg-slate-100">
-        <BloodPressure handleModalBoxOpen={handleModalBoxOpen} />
-        {isOpen && (
-          <ModalBox
-            heading="Contact Us Via Email"
-            description="Any question? Send us an email at prolog@profy.dev. We usually answer within 24 hours."
+        <div
+          className={`flex flex-col md:gap-1 ${
+            bpReading.length === 0
+              ? "justify-center"
+              : "overflow-y-auto no-scrollbar"
+          } items-center h-screen bg-slate-100 rounded-2xl max-w-full max-h-full border border-black p-3`}
+        >
+          <button
+            className="w-full flex justify-center items-center p-2 space-x-4 font-sans font-bold text-white rounded-full shadow-lg px-9 bg-cyan-700 shadow-cyan-100 hover:bg-opacity-90 hover:shadow-lg border transition hover:-translate-y-0.5 duration-150 mb-3"
+            onClick={handleModalBoxOpen}
+          >
+            Add
+          </button>
+          {bpReading.length === 0 ? (
+            <div className="w-full p-5 md:p-10">
+              <div className="flex flex-col justify-between items-center gap-10">
+                <div className="text-lg font-extralight">
+                  <p className="text-center">No records to show</p>
+                  <p>Press + to add your records</p>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <DisplayBPDetails bpReading={bpReading} />
+          )}
+        </div>
+      </div>
+      {isOpen && (
+        <ModalBox onClose={handleModalBoxClose}>
+          <AddBPDetails
+            lastID={bpReading.slice(-1)[0]?.id || 0}
+            setBpReading={setBpReading}
             onClose={handleModalBoxClose}
           />
-        )}
-      </div>
-      {/* <AddBPDetails
-        lastID={bpReading.slice(-1)[0]?.id || 0}
-        setBpReading={setBpReading}
-      />
-      <DisplayBPDetails bpReading={bpReading} /> */}
-      {/* <div>
-        <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
-          <input
-            className="border border-black p-2 max-w-lg"
-            type="number"
-            name="systolic"
-            placeholder="Enter Systolic Pressure"
-            value={inputState.systolic || ""}
-            onChange={handleChange}
-          />
-          <input
-            className="border border-black p-2 max-w-lg"
-            type="number"
-            name="diastolic"
-            placeholder="Enter Diastolic Pressure"
-            value={inputState.diastolic || ""}
-            onChange={handleChange}
-          />
-          <input
-            className="border border-black p-2 max-w-lg"
-            type="number"
-            name="pulse"
-            placeholder="Enter Pulse reading"
-            value={inputState.pulse || ""}
-            onChange={handleChange}
-          />
-          <div className="flex gap-3">
-            <button
-              type="button"
-              className={`border ${
-                inputState.arm === "Left"
-                  ? "border-blue-800 bg-blue-100"
-                  : "border-gray-700 bg-gray-100"
-              }  outline-2 p-3 w-52 rounded-full text-xl`}
-              name="arm"
-              value="Left"
-              onClick={handleChange}
-            >
-              Left Arm
-            </button>
-            <button
-              type="button"
-              className={`border ${
-                inputState.arm === "Right"
-                  ? "border-blue-800 bg-blue-100"
-                  : "border-gray-700 bg-gray-100"
-              }  outline-2 p-3 w-52 rounded-full text-xl`}
-              name="arm"
-              value="Right"
-              onClick={handleChange}
-            >
-              Right Arm
-            </button>
-          </div>
-          <button
-            type="submit"
-            className="border border-black p-2 max-w-md bg-blue-600 text-white"
-          >
-            Add Readings
-          </button>
-        </form>
-      </div> */}
-      {/* {bpReading.length > 0 && (
-        <table className="min-w-fit text-left text-sm font-light mt-5">
-          <thead className="border-b font-medium dark:border-neutral-500">
-            <tr>
-              <th className="px-6 py-4 text-xl">Date/Time</th>
-              <th className="px-6 py-4 text-xl">Systolic Pressure</th>
-              <th className="px-6 py-4 text-xl">Diastolic Pressure</th>
-              <th className="px-6 py-4 text-xl">Pulse Rate</th>
-              <th className="px-6 py-4 text-xl">Arm</th>
-            </tr>
-          </thead>
-          <tbody>
-            {bpReading.map((reading) => {
-              return (
-                <tr
-                  className="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600"
-                  key={reading.id}
-                >
-                  <td className="px-6 py-4 text-lg">
-                    {dayjs(reading.created_at).format("YYYY/MM/DD hh:mm A")}
-                  </td>
-                  <td className="px-6 py-4 text-lg">{reading.systolic}</td>
-                  <td className="px-6 py-4 text-lg">{reading.diastolic}</td>
-                  <td className="px-6 py-4 text-lg">{reading.pulse}</td>
-                  <td className="px-6 py-4 text-lg">{reading.arm}</td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      )} */}
-    </>
+        </ModalBox>
+      )}
+    </div>
   );
 }
