@@ -8,38 +8,38 @@ type DisplayDetailsProps = {
 
 const DisplayBloodSugarDetails = ({ sugarReading }: DisplayDetailsProps) => {
   return (
-    <div className="w-2/4 overflow-x-auto shadow-md sm:rounded-lg mt-4">
-      {sugarReading.length > 0 && (
-        <table className="min-w-full text-sm text-left text-gray-500 dark:text-gray-400">
-          <thead className="text-lg text-gray-700 bg-blue-300 dark:bg-gray-700 dark:text-gray-400">
-            <tr>
-              <th className="px-6 py-4">Date/Time</th>
-              <th className="px-6 py-4">Measure Time</th>
-              <th className="px-6 py-4">Blood Sugar Level</th>
-            </tr>
-          </thead>
-          <tbody>
-            {sugarReading.map((reading, index) => {
-              return (
-                <tr
-                  className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600"
-                  key={reading.id}
-                >
-                  <td className="px-6 py-4 text-md">
-                    {dayjs(reading.created_at).format("YYYY/MM/DD hh:mm A")}
-                  </td>
-                  <td className="px-6 py-4 text-md">{reading.measure}</td>
-                  <td className="px-6 py-4 text-md">
-                    {reading.sugar_level}
-                    <span>mg/dL</span>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      )}
-    </div>
+    <>
+      {sugarReading.map((reading) => {
+        return (
+          <div
+            className="bg-slate-600 p-2 mx-6 rounded-2xl my-1 w-full"
+            key={reading.id}
+          >
+            <div className="flex flex-row justify-center items-center rounded-l-xl">
+              <div className="flex flex-col justify-center items-center px-6 py-6 border border-r-4 border-r-green-500 border-t-0 border-l-0 border-b-0 w-28">
+                <p className="font-serif text-2xl font-semibold text-center text-white md:text-left">
+                  {reading.sugar_level}
+                </p>
+                <p className="font-serif text-lg font-thin text-center text-white md:text-left">
+                  mmHg
+                </p>
+              </div>
+              <div className="w-80 px-4 py-2">
+                <h2 className="font-serif text-xl font-medium  text-white text-left">
+                  Normal
+                </h2>
+                <p className="max-w-xs my-2 text-xs leading-4 tracking-wide text-white text-left">
+                  Measure Time: {reading.measure}
+                </p>
+                <p className="max-w-xs my-2 text-xs leading-4 tracking-wide  text-white text-left">
+                  {dayjs(reading.created_at).format("YYYY/MM/DD hh:mm A")}
+                </p>
+              </div>
+            </div>
+          </div>
+        );
+      })}
+    </>
   );
 };
 

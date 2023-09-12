@@ -8,39 +8,44 @@ type DisplayBPDetailsProps = {
 
 const DisplayBPDetails = ({ bpReading }: DisplayBPDetailsProps) => {
   return (
-    <div>
-      {bpReading.length > 0 && (
-        <table className="min-w-fit text-left text-sm font-light mt-5">
-          <thead className="border-b font-medium dark:border-neutral-500">
-            <tr>
-              <th className="px-6 py-4 text-xl">Date/Time</th>
-              <th className="px-6 py-4 text-xl">Systolic Pressure</th>
-              <th className="px-6 py-4 text-xl">Diastolic Pressure</th>
-              <th className="px-6 py-4 text-xl">Pulse Rate</th>
-              <th className="px-6 py-4 text-xl">Arm</th>
-            </tr>
-          </thead>
-          <tbody>
-            {bpReading.map((reading) => {
-              return (
-                <tr
-                  className="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600"
-                  key={reading.id}
-                >
-                  <td className="px-6 py-4 text-lg">
-                    {dayjs(reading.created_at).format("YYYY/MM/DD hh:mm A")}
-                  </td>
-                  <td className="px-6 py-4 text-lg">{reading.systolic}</td>
-                  <td className="px-6 py-4 text-lg">{reading.diastolic}</td>
-                  <td className="px-6 py-4 text-lg">{reading.pulse}</td>
-                  <td className="px-6 py-4 text-lg">{reading.arm}</td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      )}
-    </div>
+    <>
+      {bpReading.map((reading) => {
+        return (
+          <div
+            className="bg-slate-600 p-2 mx-6 rounded-2xl my-1 w-full"
+            key={reading.id}
+          >
+            <div className="flex flex-row justify-center items-center rounded-l-xl">
+              <div className="flex flex-col justify-center items-center px-6 py-6 border border-r-4 border-r-green-500 border-t-0 border-l-0 border-b-0 w-28">
+                <p className="font-serif text-2xl font-semibold text-center text-white md:text-left">
+                  {reading.systolic}
+                </p>
+                <p className="font-serif text-2xl font-semibold text-center text-white md:text-left">
+                  {reading.diastolic}
+                </p>
+                <p className="font-serif text-lg font-thin text-center text-white md:text-left">
+                  mmHg
+                </p>
+              </div>
+              <div className="w-80 px-4 py-2">
+                <h2 className="font-serif text-xl font-medium  text-white text-left">
+                  HypoTension
+                </h2>
+                <p className="max-w-xs my-2 text-xs leading-4 tracking-wide text-white text-left">
+                  Pulse: {reading.pulse} BPM
+                </p>
+                <p className="max-w-xs my-2 text-xs leading-4 tracking-wide text-white text-left">
+                  Arm: {reading.arm}
+                </p>
+                <p className="max-w-xs my-2 text-xs leading-4 tracking-wide  text-white text-left">
+                  {dayjs(reading.created_at).format("YYYY/MM/DD hh:mm A")}
+                </p>
+              </div>
+            </div>
+          </div>
+        );
+      })}
+    </>
   );
 };
 
