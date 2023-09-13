@@ -1,7 +1,13 @@
+import { supabase } from "@/supabase/client";
 import Link from "next/link";
 import React from "react";
 
 const Header = () => {
+  const logout = async () => {
+    const { error } = await supabase.auth.signOut();
+    console.log(error);
+  };
+
   return (
     <>
       <div className="overflow-x-hidden border">
@@ -28,12 +34,18 @@ const Header = () => {
               >
                 Login
               </Link>
-              <Link
+              {/* <Link
                 href="/signup"
                 className="px-8 py-2 text-white bg-cyan-700 border-2 border-cyan-700 rounded-lg shadow-md hover:bg-cyan-800"
               >
                 Sign Up
-              </Link>
+              </Link> */}
+              <button
+                className="px-8 py-2 text-white bg-cyan-700 border-2 border-cyan-700 rounded-lg shadow-md hover:bg-cyan-800"
+                onClick={logout}
+              >
+                Logout
+              </button>
             </div>
             {/* <!-- Hamburger Button --> */}
             <button
