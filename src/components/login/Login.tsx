@@ -3,33 +3,18 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
 
-const Login = () => {
-  const [currentUser, setCurrentUser] = useState({});
+type LoginProps = {
+  loginWithGoogle: () => void;
+};
 
-  const loginWithGoogle = async () => {
-    const { data, error } = await supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: {
-        queryParams: {
-          access_type: "offline",
-          prompt: "consent",
-        },
-      },
-    });
-
-    setCurrentUser(data);
-    console.log("Google signIn data : ", error);
-  };
-
-  console.log("Google signIn data : ", currentUser);
-
+const Login = ({ loginWithGoogle }: LoginProps) => {
   return (
     <>
       <div className="flex items-center justify-center min-h-screen bg-slate-200">
         {/* <!-- Card Container --> */}
         <div className="relative flex flex-col m-6 space-y-10 bg-white shadow-2xl rounded-2xl md:flex-row md:space-y-0 md:m-0 border border-black w-96">
           <div className="w-full p-6 md:p-10">
-            <div className="flex flex-col justify-center items-center gap-3">
+            <div className="flex flex-col justify-center items-center gap-2">
               <div className="flex flex-col justify-center items-center">
                 <Image
                   src={require("/src/images/anonymous-avatar-icon-25.jpg")}
@@ -38,8 +23,12 @@ const Login = () => {
                   height={64}
                   className="rounded-full mb-3"
                 />
-                <h1 className="mb-3 text-xl font-bold tracking-widest">
-                  Log In
+                <h1 className="mb-3 text-xl font-bold tracking-widest text-center">
+                  Welcome Back
+                  <br />
+                  <span className="text-lg font-bold tracking-widest">
+                    Sign In to your account
+                  </span>
                 </h1>
               </div>
 
@@ -66,6 +55,9 @@ const Login = () => {
                 Sign in with Google
               </button>
 
+              <div className="my-2 tracking-widest font-light text-sm">
+                ----------------- or -----------------
+              </div>
               <input
                 type="text"
                 className="w-full p-4 border border-gray-300 rounded-md placeholder:font-sans"
@@ -83,7 +75,7 @@ const Login = () => {
               <div className="w-100 text-center mt-3 font-medium hover:text-cyan-700  cursor-pointer hover:underline">
                 Forgot password
               </div>
-              <div className="w-100 text-center mt-3 font-medium flex gap-2">
+              <div className="w-100 text-center font-medium flex gap-2">
                 <span>Create a new account ?</span>
                 <Link href="/signup" className="text-blue-800 text underline">
                   Sign Up
