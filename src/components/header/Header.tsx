@@ -1,18 +1,36 @@
 import { supabase } from "@/supabase/client";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 
 const Header = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
   const logout = async () => {
     const { error } = await supabase.auth.signOut();
     console.log(error);
+  };
+
+  const toggle = () => {
+    setIsOpen(!isOpen);
   };
 
   return (
     <>
       <div className="overflow-x-hidden border">
         <nav className="container relative mx-auto p-2 flex justify-center">
-          <div className="flex items-center justify-center space-x-20 my-2">
+          <div className="flex items-center justify-center space-x-9 md:space-x-16 my-2">
+            {/* <!-- Hamburger Button --> */}
+            <button
+              id="menu-btn"
+              className="z-30 block md:hidden focus:outline-none hamburger"
+              onClick={toggle}
+            >
+              <span className="hamburger-top"></span>
+              <span className="hamburger-middle"></span>
+              <span className="hamburger-bottom"></span>
+            </button>
+
+            {/* Heading */}
             <div>
               <h1 className="tracking-widest text-lg font-bold">
                 Heart Buddy Tracker
@@ -47,20 +65,13 @@ const Header = () => {
                 Logout
               </button>
             </div>
-            {/* <!-- Hamburger Button --> */}
-            <button
-              id="menu-btn"
-              className="z-30 block md:hidden focus:outline-none hamburger"
-            >
-              <span className="hamburger-top"></span>
-              <span className="hamburger-middle"></span>
-              <span className="hamburger-bottom"></span>
-            </button>
           </div>
 
           <div
             id="menu"
-            className="fixed inset-0 z-20 hidden flex-col items-center self-end w-full h-full m-h-screen px-6 py-1 pt-24 pb-4 tracking-widest text-white uppercase divide-y divide-gray-500 opacity-90 bg-veryDarkBlue"
+            className={`fixed inset-0 z-20 ${
+              isOpen ? "flex" : "hidden"
+            } flex-col items-center self-end text-lg w-full min-h-fit px-6 py-1 pt-24 pb-4 tracking-widest text-white uppercase divide-y-2 divide-gray-500 opacity-90 bg-gray-900`}
           >
             <div className="w-full py-3 text-center">
               <Link href="/" className="block hover:text-red-400">
