@@ -1,8 +1,28 @@
+import { supabase } from "@/supabase/client";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 
 const Login = () => {
+  const [currentUser, setCurrentUser] = useState({});
+
+  const loginWithGoogle = async () => {
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        queryParams: {
+          access_type: "offline",
+          prompt: "consent",
+        },
+      },
+    });
+
+    setCurrentUser(data);
+    console.log("Google signIn data : ", error);
+  };
+
+  console.log("Google signIn data : ", currentUser);
+
   return (
     <>
       <div className="flex items-center justify-center min-h-screen bg-slate-200">
@@ -22,6 +42,30 @@ const Login = () => {
                   Log In
                 </h1>
               </div>
+
+              <button
+                type="button"
+                className="w-full flex justify-center items-center p-2 space-x-4 font-sans font-bold text-white rounded-md shadow-lg px-9 bg-cyan-700 shadow-cyan-100 hover:bg-opacity-90 hover:shadow-lg border transition hover:-translate-y-0.5 duration-150"
+                onClick={loginWithGoogle}
+              >
+                <svg
+                  className="mr-2 -ml-1 w-4 h-4"
+                  aria-hidden="true"
+                  focusable="false"
+                  data-prefix="fab"
+                  data-icon="google"
+                  role="img"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 488 512"
+                >
+                  <path
+                    fill="currentColor"
+                    d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z"
+                  ></path>
+                </svg>
+                Sign in with Google
+              </button>
+
               <input
                 type="text"
                 className="w-full p-4 border border-gray-300 rounded-md placeholder:font-sans"
