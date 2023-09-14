@@ -1,18 +1,47 @@
 import { supabase } from "@/supabase/client";
+import { Session } from "@supabase/supabase-js";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const Header = () => {
+  const [currentUser, setCurrentUser] = useState<Session | null>(null);
+
   const [isOpen, setIsOpen] = useState(false);
 
   const logout = async () => {
-    const { error } = await supabase.auth.signOut();
-    console.log(error);
+    try {
+      const { error } = await supabase.auth.signOut();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const toggle = () => {
     setIsOpen(!isOpen);
   };
+
+  const authStateChange = async () => {
+    try {
+      await supabase.auth.onAuthStateChange((event, session) => {
+        if (event == "SIGNED_IN") {
+          console.log("SIGNED_IN");
+          setCurrentUser(session);
+        }
+        if (event == "SIGNED_OUT") {
+          console.log("SIGNED_OUT");
+          setCurrentUser(session);
+        }
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    authStateChange();
+  }, []);
+
+  console.log("Current user : ", currentUser);
 
   return (
     <>
@@ -46,24 +75,27 @@ const Header = () => {
               >
                 Blood Sugar
               </Link>
-              <Link
-                href="/login"
-                className="px-8 py-2 text-white bg-cyan-700 border-2 border-cyan-700 rounded-lg shadow-md hover:bg-cyan-800"
-              >
-                Login
-              </Link>
-              {/* <Link
-                href="/signup"
-                className="px-8 py-2 text-white bg-cyan-700 border-2 border-cyan-700 rounded-lg shadow-md hover:bg-cyan-800"
-              >
-                Sign Up
-              </Link> */}
-              <button
-                className="px-8 py-2 text-white bg-cyan-700 border-2 border-cyan-700 rounded-lg shadow-md hover:bg-cyan-800"
-                onClick={logout}
-              >
-                Logout
-              </button>
+
+              {!currentUser ? (
+                <Link
+                  href="/login"
+                  className="px-8 py-2 text-white bg-cyan-700 border-2 border-cyan-700 rounded-lg shadow-md hover:bg-cyan-800"
+                >
+                  Login
+                </Link>
+              ) : (
+                <>
+                  <h2 className="tracking-widest text-sm">
+                    Welcome {currentUser?.user?.user_metadata?.name} !
+                  </h2>
+                  <button
+                    className="px-8 py-2 text-white bg-cyan-700 border-2 border-cyan-700 rounded-lg shadow-md hover:bg-cyan-800"
+                    onClick={logout}
+                  >
+                    Logout
+                  </button>
+                </>
+              )}
             </div>
           </div>
 
@@ -73,6 +105,13 @@ const Header = () => {
               isOpen ? "flex" : "hidden"
             } flex-col items-center self-end text-lg w-full min-h-fit px-6 py-1 pt-24 pb-4 tracking-widest text-white uppercase divide-y-2 divide-gray-500 opacity-90 bg-gray-900`}
           >
+            {currentUser && (
+              <div className="w-full py-3 text-center">
+                <h2 className="tracking-widest text-sm">
+                  Welcome {currentUser?.user?.user_metadata?.name} !
+                </h2>
+              </div>
+            )}
             <div className="w-full py-3 text-center">
               <Link href="/" className="block hover:text-red-400">
                 Blood Pressure
@@ -81,16 +120,19 @@ const Header = () => {
             <div className="w-full py-3 text-center">
               <Link href="/bloodsugar">Blood Sugar</Link>
             </div>
-            <div className="w-full py-3 text-center">
-              <Link href="/login" className="block hover:text-red-400">
-                Login
-              </Link>
-            </div>
-            <div className="w-full py-3 text-center">
-              <Link href="/signup" className="block hover:text-red-400">
-                Sign Up
-              </Link>
-            </div>
+            {!currentUser ? (
+              <div className="w-full py-3 text-center">
+                <Link href="/login" className="block hover:text-red-400">
+                  Login
+                </Link>
+              </div>
+            ) : (
+              <div className="w-full py-3 flex justify-center items-center">
+                <button className="block hover:text-red-400" onClick={logout}>
+                  Logout
+                </button>
+              </div>
+            )}
           </div>
         </nav>
       </div>
