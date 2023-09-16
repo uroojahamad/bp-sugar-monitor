@@ -26,15 +26,8 @@ const Header = () => {
 
   const authStateChange = async () => {
     try {
-      await supabase.auth.onAuthStateChange((event, session) => {
-        if (event == "SIGNED_IN") {
-          console.log("SIGNED_IN");
-          setCurrentUser(session);
-        }
-        if (event == "SIGNED_OUT") {
-          console.log("SIGNED_OUT");
-          setCurrentUser(session);
-        }
+      supabase.auth.onAuthStateChange((event, session) => {
+        setCurrentUser(session);
       });
     } catch (error) {
       console.log(error);
