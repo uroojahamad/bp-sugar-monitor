@@ -6,7 +6,7 @@ const SignUp = () => {
   return (
     <>
       <div className="flex items-center justify-center min-h-screen bg-slate-200">
-        <div className="relative flex flex-col m-6 space-y-10 bg-white shadow-2xl rounded-2xl md:flex-row md:space-y-0 md:m-0 border border-black w-96">
+        <div className="relative flex flex-col m-6 space-y-10 bg-white shadow-2xl rounded-2xl md:flex-row md:space-y-0 md:m-0 w-96">
           <div className="w-full p-6 md:p-10">
             <div className="flex flex-col justify-center items-center gap-3">
               <div className="flex flex-col justify-center items-center">
