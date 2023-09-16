@@ -1,9 +1,12 @@
 import { supabase } from "@/supabase/client";
 import { Session } from "@supabase/supabase-js";
 import Link from "next/link";
+import { useRouter } from "next/Navigation";
 import React, { useEffect, useState } from "react";
 
 const Header = () => {
+  const router = useRouter();
+
   const [currentUser, setCurrentUser] = useState<Session | null>(null);
 
   const [isOpen, setIsOpen] = useState(false);
@@ -11,6 +14,7 @@ const Header = () => {
   const logout = async () => {
     try {
       const { error } = await supabase.auth.signOut();
+      router.push("/login");
     } catch (error) {
       console.log(error);
     }
