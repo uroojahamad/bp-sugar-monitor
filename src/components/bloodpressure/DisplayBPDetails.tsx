@@ -16,7 +16,7 @@ const DisplayBPDetails = ({ bpReading }: DisplayBPDetailsProps) => {
             key={reading.id}
           >
             <div className="flex flex-row justify-center items-center rounded-l-xl">
-              <div className="flex flex-col justify-center items-center px-6 py-6 border border-r-4 border-r-green-500 border-t-0 border-l-0 border-b-0 w-28">
+              <div className="flex flex-col justify-center items-center px-6 sm:px-0 sm:pl-2 sm:-ml-9 md:px-0 md:pl-2 md:-ml-9 py-4 border border-r-4 border-r-green-500 border-t-0 border-l-0 border-b-0 w-28">
                 <p className="font-serif text-2xl font-semibold text-center text-white md:text-left">
                   {reading.systolic}
                 </p>

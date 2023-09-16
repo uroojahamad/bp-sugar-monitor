@@ -3,16 +3,24 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
 
-type LoginProps = {
-  loginWithGoogle: () => void;
-};
+const Login = () => {
+  const loginWithGoogle = async () => {
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        queryParams: {
+          access_type: "offline",
+          prompt: "consent",
+        },
+      },
+    });
+  };
 
-const Login = ({ loginWithGoogle }: LoginProps) => {
   return (
     <>
-      <div className="flex items-center justify-center min-h-screen bg-slate-200">
+      <div className="flex justify-center items-center min-h-screen bg-slate-200">
         {/* <!-- Card Container --> */}
-        <div className="relative flex flex-col m-6 space-y-10 bg-white shadow-2xl rounded-2xl md:flex-row md:space-y-0 md:m-0 w-96">
+        <div className="relative flex flex-col m-6 space-y-10 bg-white shadow-2xl rounded-2xl md:flex-row md:space-y-0 md:m-0 w-96 max-h-fit">
           <div className="w-full p-6 md:p-10">
             <div className="flex flex-col justify-center items-center gap-2">
               <div className="flex flex-col justify-center items-center">
