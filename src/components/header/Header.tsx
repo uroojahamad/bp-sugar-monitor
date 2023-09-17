@@ -2,7 +2,7 @@
 import { supabase } from "@/supabase/client";
 import { Session } from "@supabase/supabase-js";
 import Link from "next/link";
-import { useRouter } from "next/Navigation";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 const Header = () => {
