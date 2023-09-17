@@ -1,3 +1,4 @@
+"use client";
 import { supabase } from "@/supabase/client";
 import { Session } from "@supabase/supabase-js";
 import Link from "next/link";
