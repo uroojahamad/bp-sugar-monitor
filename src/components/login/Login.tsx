@@ -1,6 +1,6 @@
 import { supabase } from "@/supabase/client";
 import Image from "next/image";
-import Link from "next/link";
+// import Link from "next/link";
 import React, { useState } from "react";
 
 const Login = () => {
@@ -63,7 +63,7 @@ const Login = () => {
                 Sign in with Google
               </button>
 
-              <div className="my-2 tracking-widest font-light text-sm">
+              {/* <div className="my-2 tracking-widest font-light text-sm">
                 ----------------- or -----------------
               </div>
               <input
@@ -88,7 +88,7 @@ const Login = () => {
                 <Link href="/signup" className="text-blue-800 text underline">
                   Sign Up
                 </Link>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

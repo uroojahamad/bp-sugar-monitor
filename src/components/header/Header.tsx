@@ -44,12 +44,12 @@ const Header = () => {
   return (
     <>
       <div className="overflow-x-hidden border">
-        <nav className="container relative mx-auto p-2 flex justify-center">
+        <nav className="container relative mx-auto p-2 flex item-center md:justify-center">
           <div className="flex items-center justify-center space-x-9 md:space-x-16 my-2">
             {/* <!-- Hamburger Button --> */}
             <button
               id="menu-btn"
-              className="z-30 block md:hidden focus:outline-none hamburger"
+              className="z-30 block md:hidden focus:outline-none hamburger ml-3"
               onClick={toggle}
             >
               <span className="hamburger-top"></span>
