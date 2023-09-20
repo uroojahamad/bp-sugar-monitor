@@ -50,7 +50,7 @@ const Header = () => {
             {/* <!-- Hamburger Button --> */}
             <button
               id="menu-btn"
-              className="z-30 block md:hidden focus:outline-none hamburger ml-3"
+              className="z-30 block md:hidden focus:outline-none hamburger ml-3 mr-4"
               onClick={toggle}
             >
               <span className="hamburger-top"></span>
