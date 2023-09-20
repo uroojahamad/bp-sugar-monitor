@@ -2,11 +2,12 @@
 import { supabase } from "@/supabase/client";
 import { Session } from "@supabase/supabase-js";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 const Header = () => {
   const router = useRouter();
+  const pathname = usePathname();
 
   const [currentUser, setCurrentUser] = useState<Session | null>(null);
 
@@ -40,12 +41,12 @@ const Header = () => {
   }, []);
 
   console.log("Current user : ", currentUser);
-
+  console.log(pathname);
   return (
     <>
       <div className="overflow-x-hidden border">
         <nav className="container relative mx-auto p-2 flex item-center md:justify-center">
-          <div className="flex items-center justify-center space-x-9 md:space-x-16 my-2">
+          <div className="flex items-center justify-center md:justify-between space-x-9 md:space-x-16 my-2 sm:w-full">
             {/* <!-- Hamburger Button --> */}
             <button
               id="menu-btn"
@@ -63,13 +64,24 @@ const Header = () => {
                 Heart Buddy Tracker
               </h1>
             </div>
-            <div className="hidden items-center space-x-10 uppercase text-grayishBlue md:flex">
-              <Link href="/" className="tracking-widest hover:text-blue-400">
+            <div className="hidden items-center space-x-10 uppercase md:flex p-1">
+              <Link
+                href="/"
+                className={`tracking-widest hover:text-blue-400 ${
+                  pathname === "/"
+                    ? "text-violet-900 font-bold underline"
+                    : "text-black"
+                }`}
+              >
                 Blood Pressure
               </Link>
               <Link
                 href="/bloodsugar"
-                className="tracking-widest hover:text-blue-400"
+                className={`tracking-widest hover:text-blue-400 ${
+                  pathname === "/bloodsugar"
+                    ? "text-violet-900 font-bold underline"
+                    : "text-black"
+                }`}
               >
                 Blood Sugar
               </Link>
@@ -101,7 +113,7 @@ const Header = () => {
             id="menu"
             className={`fixed inset-0 z-20 ${
               isOpen ? "flex" : "hidden"
-            } flex-col items-center self-end text-lg w-full min-h-fit px-6 py-1 pt-24 pb-4 tracking-widest text-white uppercase divide-y-2 divide-gray-500 opacity-90 bg-gray-900`}
+            } flex-col items-center self-end text-lg w-full min-h-screen px-6 py-1 pt-24 pb-4 tracking-widest text-white uppercase divide-y-2 divide-gray-500 opacity-90 bg-gray-900`}
           >
             {currentUser && (
               <div className="w-full py-3 text-center">
