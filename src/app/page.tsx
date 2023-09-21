@@ -13,6 +13,7 @@ export type Reading = {
   pulse: number;
   arm: "Left" | "Right";
   created_at: Date;
+  category: string;
 };
 
 export default function Home() {
@@ -45,6 +46,7 @@ export default function Home() {
     getBPData();
   }, []);
 
+  console.log(bpReading);
   return (
     <div className="w-full">
       <Header />

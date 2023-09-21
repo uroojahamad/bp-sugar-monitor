@@ -41,7 +41,7 @@ const Header = () => {
   }, []);
 
   console.log("Current user : ", currentUser);
-  console.log(pathname);
+
   return (
     <>
       <div className="overflow-x-hidden border">
@@ -59,8 +59,12 @@ const Header = () => {
             </button>
 
             {/* Heading */}
-            <div>
-              <h1 className="tracking-widest text-lg font-bold">
+            <div className="text-center">
+              <h1 className="md:hidden tracking-widest text-lg font-bold">
+                {/* Heart Buddy Tracker */}
+                {pathname === "/bloodsugar" ? "Blood Sugar" : "Blood Pressure"}
+              </h1>
+              <h1 className="hidden md:flex tracking-widest text-lg font-bold">
                 Heart Buddy Tracker
               </h1>
             </div>

@@ -10,7 +10,7 @@ type AddBPDetailsProps = {
 
 const AddBPDetails = ({ setBpReading, lastID, onClose }: AddBPDetailsProps) => {
   const [inputState, setInputState] = useState<
-    Omit<Reading, "id" | "created_at">
+    Omit<Reading, "id" | "created_at" | "category">
   >({
     systolic: 0,
     diastolic: 0,
@@ -30,6 +30,26 @@ const AddBPDetails = ({ setBpReading, lastID, onClose }: AddBPDetailsProps) => {
     await supabase.from("bp").insert([reading]);
   };
 
+  //Check BP Category
+  const calculateCategory = () => {
+    if (inputState.systolic < 90 || inputState.diastolic < 60) {
+      return "Hypotension (Low Blood Pressure)";
+    } else if (
+      inputState.systolic >= 90 &&
+      inputState.systolic <= 120 &&
+      inputState.diastolic >= 60 &&
+      inputState.diastolic <= 80
+    ) {
+      return "Normal Blood Pressure";
+    } else if (inputState.systolic <= 129 && inputState.diastolic <= 84) {
+      return "Elevated Blood Pressure";
+    } else if (inputState.systolic <= 139 || inputState.diastolic <= 89) {
+      return "Stage 1 Hypertension";
+    } else {
+      return "Stage 2 Hypertension";
+    }
+  };
+
   //Submit the details
   const handleSubmit = (e: any) => {
     e.preventDefault();
@@ -44,6 +64,7 @@ const AddBPDetails = ({ setBpReading, lastID, onClose }: AddBPDetailsProps) => {
     const currentReading = {
       id: lastID + 1,
       created_at: new Date(),
+      category: calculateCategory(),
       ...inputState,
     };
 
@@ -61,7 +82,8 @@ const AddBPDetails = ({ setBpReading, lastID, onClose }: AddBPDetailsProps) => {
     //Modal box close
     onClose();
 
-    insertBPData(currentReading);
+    console.log(currentReading);
+    // insertBPData(currentReading);
   };
   return (
     <>

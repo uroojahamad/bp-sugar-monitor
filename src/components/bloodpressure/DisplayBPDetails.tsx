@@ -23,14 +23,14 @@ const DisplayBPDetails = ({ bpReading }: DisplayBPDetailsProps) => {
                 <p className="font-serif text-2xl font-semibold text-center text-white md:text-left">
                   {reading.diastolic}
                 </p>
-                <p className="font-serif text-lg font-thin text-center text-white md:text-left">
+                <p className="font-serif text-sm font-thin text-center text-white md:text-left">
                   mmHg
                 </p>
               </div>
               <div className="w-80 px-4 py-2">
-                <h2 className="font-serif text-xl font-medium  text-white text-left">
-                  HypoTension
-                </h2>
+                <p className="max-w-xs my-2 text-lg leading-6 tracking-wide text-white text-left">
+                  {reading.category}
+                </p>
                 <p className="max-w-xs my-2 text-xs leading-4 tracking-wide text-white text-left">
                   Pulse: {reading.pulse} BPM
                 </p>
