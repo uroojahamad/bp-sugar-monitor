@@ -46,7 +46,6 @@ export default function Home() {
     getBPData();
   }, []);
 
-  console.log(bpReading);
   return (
     <div className="w-full">
       <Header />
@@ -94,7 +93,7 @@ export default function Home() {
       {isOpen && (
         <ModalBox onClose={handleModalBoxClose}>
           <AddBPDetails
-            lastID={bpReading.slice(-1)[0]?.id || 0}
+            lastID={bpReading[0]?.id || 0}
             setBpReading={setBpReading}
             onClose={handleModalBoxClose}
           />

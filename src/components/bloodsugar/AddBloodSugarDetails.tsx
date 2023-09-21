@@ -66,7 +66,6 @@ const AddBloodSugarDetails = ({
 
     //Modalbox close
     onClose();
-    console.log(currentReading);
     insertSugarData(currentReading);
   };
 

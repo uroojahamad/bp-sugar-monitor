@@ -44,8 +44,6 @@ const Sugar = () => {
     getSugarData();
   }, []);
 
-  console.log(sugarReading);
-
   return (
     <div className="w-full">
       <Header />
@@ -94,7 +92,7 @@ const Sugar = () => {
       {isOpen && (
         <ModalBox onClose={handleModalBoxClose}>
           <AddBloodSugarDetails
-            lastID={sugarReading.slice(-1)[0]?.id || 0}
+            lastID={sugarReading[0]?.id || 0}
             setSugarReading={setSugarReading}
             onClose={handleModalBoxClose}
           />

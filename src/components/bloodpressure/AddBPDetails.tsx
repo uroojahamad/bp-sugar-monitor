@@ -81,8 +81,6 @@ const AddBPDetails = ({ setBpReading, lastID, onClose }: AddBPDetailsProps) => {
 
     //Modal box close
     onClose();
-
-    console.log(currentReading);
     insertBPData(currentReading);
   };
   return (
