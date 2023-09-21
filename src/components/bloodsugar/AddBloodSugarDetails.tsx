@@ -14,7 +14,7 @@ const AddBloodSugarDetails = ({
   onClose,
 }: AddBloodSugarDetailsProps) => {
   const [inputState, setInputState] = useState<
-    Omit<Reading, "id" | "created_at">
+    Omit<Reading, "id" | "created_at" | "category">
   >({
     sugar_level: 0,
     measure: "Before Meal",
@@ -35,11 +35,23 @@ const AddBloodSugarDetails = ({
     await supabase.from("bloodsugar").insert([reading]);
   };
 
+  // Function to categorize blood sugar levels
+  const categorizeBloodSugar = () => {
+    if (inputState.sugar_level < 70) {
+      return "Hypoglycemia";
+    } else if (inputState.sugar_level >= 70 && inputState.sugar_level <= 140) {
+      return "Normal";
+    } else {
+      return "Hyperglycemia";
+    }
+  };
+
   const handleSubmit = (e: any) => {
     e.preventDefault();
     const currentReading = {
       id: lastID + 1,
       created_at: new Date(),
+      category: categorizeBloodSugar(),
       ...inputState,
     };
 
@@ -54,7 +66,7 @@ const AddBloodSugarDetails = ({
 
     //Modalbox close
     onClose();
-
+    console.log(currentReading);
     insertSugarData(currentReading);
   };
 

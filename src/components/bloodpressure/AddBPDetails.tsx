@@ -83,7 +83,7 @@ const AddBPDetails = ({ setBpReading, lastID, onClose }: AddBPDetailsProps) => {
     onClose();
 
     console.log(currentReading);
-    // insertBPData(currentReading);
+    insertBPData(currentReading);
   };
   return (
     <>

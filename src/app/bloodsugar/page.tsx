@@ -11,6 +11,7 @@ export type Reading = {
   sugar_level: number;
   measure: "Before Meal" | "After Meal" | "At Bedtime" | "Fasting";
   created_at: Date;
+  category: string;
 };
 
 const Sugar = () => {
@@ -42,6 +43,8 @@ const Sugar = () => {
   useEffect(() => {
     getSugarData();
   }, []);
+
+  console.log(sugarReading);
 
   return (
     <div className="w-full">
