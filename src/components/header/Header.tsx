@@ -1,11 +1,13 @@
 "use client";
-import { supabase } from "@/supabase/client";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+// import { supabase } from "@/supabase/client";
 import { Session } from "@supabase/supabase-js";
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 const Header = () => {
+  const supabase = createClientComponentClient();
   const router = useRouter();
   const pathname = usePathname();
 

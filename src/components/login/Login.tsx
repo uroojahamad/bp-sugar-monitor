@@ -1,10 +1,14 @@
-import { supabase } from "@/supabase/client";
+// import { supabase } from "@/supabase/client";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import Image from "next/image";
 // import Link from "next/link";
 import React, { useState } from "react";
 
 const Login = () => {
   const loginWithGoogle = async () => {
+    //supabase client from supabase auth helper
+    const supabase = createClientComponentClient();
+
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
@@ -12,6 +16,8 @@ const Login = () => {
           access_type: "offline",
           prompt: "consent",
         },
+        //redirect to
+        redirectTo: `${location.origin}/auth/callback`,
       },
     });
   };
