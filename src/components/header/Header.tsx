@@ -6,6 +6,16 @@ import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
+export const getCurrentSession = async () => {
+  const supabase = createClientComponentClient();
+  const { data, error } = await supabase.auth.getSession();
+  if (data) {
+    return data;
+  } else {
+    console.log(error);
+  }
+};
+
 const Header = () => {
   const supabase = createClientComponentClient();
   const router = useRouter();
@@ -37,6 +47,8 @@ const Header = () => {
       console.log(error);
     }
   };
+
+  getCurrentSession();
 
   useEffect(() => {
     authStateChange();

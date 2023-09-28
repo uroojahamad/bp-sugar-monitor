@@ -1,6 +1,8 @@
 import { Reading } from "@/app/page";
 import { supabase } from "@/supabase/client";
-import React, { Dispatch, SetStateAction, useState } from "react";
+import { Session } from "@supabase/supabase-js";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { getCurrentSession } from "../header/Header";
 
 type AddBPDetailsProps = {
   setBpReading: Dispatch<SetStateAction<Reading[]>>;
@@ -17,6 +19,13 @@ const AddBPDetails = ({ setBpReading, lastID, onClose }: AddBPDetailsProps) => {
     pulse: 0,
     arm: "Left",
   });
+
+  const [session, setSession] = useState<Session | null | undefined>(null);
+
+  const getSession = async () => {
+    const currentSession = await getCurrentSession();
+    setSession(currentSession?.session);
+  };
 
   //Get user input from fields
   const handleChange = (e: any) => {
@@ -65,6 +74,7 @@ const AddBPDetails = ({ setBpReading, lastID, onClose }: AddBPDetailsProps) => {
       id: lastID + 1,
       created_at: new Date(),
       category: calculateCategory(),
+      user_id: session?.user?.id,
       ...inputState,
     };
 
@@ -78,11 +88,17 @@ const AddBPDetails = ({ setBpReading, lastID, onClose }: AddBPDetailsProps) => {
       pulse: 0,
       arm: "Left",
     });
+    console.log("current reading : ", currentReading);
 
     //Modal box close
     onClose();
     insertBPData(currentReading);
   };
+
+  useEffect(() => {
+    getSession();
+  }, []);
+
   return (
     <>
       <div

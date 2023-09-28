@@ -1,6 +1,8 @@
 import { Reading } from "@/app/bloodsugar/page";
 import { supabase } from "@/supabase/client";
-import React, { Dispatch, SetStateAction, useState } from "react";
+import { Session } from "@supabase/supabase-js";
+import React, { Dispatch, SetStateAction, useState, useEffect } from "react";
+import { getCurrentSession } from "../header/Header";
 
 type AddBloodSugarDetailsProps = {
   setSugarReading: Dispatch<SetStateAction<Reading[]>>;
@@ -20,6 +22,8 @@ const AddBloodSugarDetails = ({
     measure: "Before Meal",
   });
 
+  const [session, setSession] = useState<Session | null | undefined>(null);
+
   //Get user input from fields
   const handleChange = (e: any) => {
     setInputState((prevInputState) => {
@@ -30,6 +34,11 @@ const AddBloodSugarDetails = ({
     });
   };
 
+  const getSession = async () => {
+    const currentSession = await getCurrentSession();
+    setSession(currentSession?.session);
+  };
+
   //Insert data into supabase
   const insertSugarData = async (reading: Reading) => {
     await supabase.from("bloodsugar").insert([reading]);
@@ -38,11 +47,11 @@ const AddBloodSugarDetails = ({
   // Function to categorize blood sugar levels
   const categorizeBloodSugar = () => {
     if (inputState.sugar_level < 70) {
-      return "Hypoglycemia";
+      return "Hypoglycemia (Low Blood Sugar)";
     } else if (inputState.sugar_level >= 70 && inputState.sugar_level <= 140) {
       return "Normal";
     } else {
-      return "Hyperglycemia";
+      return "Hyperglycemia (High Blood Sugar)";
     }
   };
 
@@ -52,6 +61,7 @@ const AddBloodSugarDetails = ({
       id: lastID + 1,
       created_at: new Date(),
       category: categorizeBloodSugar(),
+      user_id: session?.user?.id,
       ...inputState,
     };
 
@@ -68,6 +78,10 @@ const AddBloodSugarDetails = ({
     onClose();
     insertSugarData(currentReading);
   };
+
+  useEffect(() => {
+    getSession();
+  }, []);
 
   return (
     <>
