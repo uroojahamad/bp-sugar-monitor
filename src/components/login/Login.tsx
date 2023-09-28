@@ -7,15 +7,12 @@ import React, { useState } from "react";
 const Login = () => {
   const loginWithGoogle = async () => {
     //supabase client from supabase auth helper
-    console.log(location.origin);
-    return;
     const supabase = createClientComponentClient();
 
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
         queryParams: {
-          access_type: "offline",
           prompt: "consent",
         },
         //redirect to
