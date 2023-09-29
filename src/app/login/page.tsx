@@ -1,9 +1,18 @@
-"use client";
+import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
+import { redirect } from "next/navigation";
+import { cookies } from "next/headers";
 import Login from "@/components/login/Login";
-import { supabase } from "@/supabase/client";
-import React, { useState } from "react";
 
-const LoginPage = () => {
+const LoginPage = async () => {
+  const supabase = createServerComponentClient({ cookies });
+  const {
+    data: { session },
+    error,
+  } = await supabase.auth.getSession();
+
+  if (session) {
+    redirect("/");
+  }
   return <Login />;
 };
 
