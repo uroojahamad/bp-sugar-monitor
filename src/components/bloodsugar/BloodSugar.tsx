@@ -3,8 +3,7 @@ import AddBloodSugarDetails from "@/components/bloodsugar/AddBloodSugarDetails";
 import DisplayBloodSugarDetails from "@/components/bloodsugar/DisplayBloodSugarDetails";
 import Header from "@/components/header/Header";
 import ModalBox from "@/components/modalbox/ModalBox";
-import { supabase } from "@/supabase/client";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 export type Reading = {
   id: number;
@@ -14,8 +13,8 @@ export type Reading = {
   category: string;
 };
 
-const BloodSugar = ({ session }: any) => {
-  const [sugarReading, setSugarReading] = useState<Reading[]>([]);
+const BloodSugar = ({ session, bloodSugarData }: any) => {
+  const [sugarReading, setSugarReading] = useState<Reading[]>(bloodSugarData);
 
   //State for Modal box
   const [isOpen, setIsOpen] = useState(false);
@@ -28,21 +27,6 @@ const BloodSugar = ({ session }: any) => {
   const handleModalBoxClose = () => {
     setIsOpen(false);
   };
-
-  //Get data from supabase
-  const getSugarData = async () => {
-    setIsLoading(true);
-    const { data, error } = await supabase
-      .from("bloodsugar")
-      .select(`*`)
-      .order("id", { ascending: false });
-    if (data) setSugarReading(data);
-    setIsLoading(false);
-  };
-
-  useEffect(() => {
-    getSugarData();
-  }, []);
 
   return (
     <div className="w-full">

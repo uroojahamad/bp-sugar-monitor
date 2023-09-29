@@ -1,8 +1,7 @@
 import { Reading } from "@/app/bloodsugar/page";
-import { supabase } from "@/supabase/client";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { Session } from "@supabase/supabase-js";
-import React, { Dispatch, SetStateAction, useState, useEffect } from "react";
-// import { getCurrentSession } from "../header/Header";
+import React, { Dispatch, SetStateAction, useState } from "react";
 
 type AddBloodSugarDetailsProps = {
   setSugarReading: Dispatch<SetStateAction<Reading[]>>;
@@ -17,14 +16,14 @@ const AddBloodSugarDetails = ({
   onClose,
   session,
 }: AddBloodSugarDetailsProps) => {
+  const supabase = createClientComponentClient();
+
   const [inputState, setInputState] = useState<
     Omit<Reading, "id" | "created_at" | "category">
   >({
     sugar_level: 0,
     measure: "Before Meal",
   });
-
-  // const [session, setSession] = useState<Session | null | undefined>(null);
 
   //Get user input from fields
   const handleChange = (e: any) => {
@@ -36,14 +35,10 @@ const AddBloodSugarDetails = ({
     });
   };
 
-  // const getSession = async () => {
-  //   const currentSession = await getCurrentSession();
-  //   setSession(currentSession?.session);
-  // };
-
   //Insert data into supabase
   const insertSugarData = async (reading: Reading) => {
-    await supabase.from("bloodsugar").insert([reading]);
+    const { data, error } = await supabase.from("bloodsugar").insert([reading]);
+    console.log(error);
   };
 
   // Function to categorize blood sugar levels

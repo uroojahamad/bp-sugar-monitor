@@ -4,23 +4,10 @@ import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 import React, { useState } from "react";
 
-export const getCurrentSession = async () => {
-  const supabase = createClientComponentClient();
-  const { data, error } = await supabase.auth.getSession();
-  if (data) {
-    return data;
-  } else {
-    console.log(error);
-  }
-};
-
 const Header = ({ session }: any) => {
   const supabase = createClientComponentClient();
   const router = useRouter();
   const pathname = usePathname();
-
-  // const [currentUser, setCurrentUser] = useState<Session | null>(null);
-
   const [isOpen, setIsOpen] = useState(false);
 
   const logout = async () => {
@@ -35,22 +22,6 @@ const Header = ({ session }: any) => {
   const toggle = () => {
     setIsOpen(!isOpen);
   };
-
-  // const authStateChange = async () => {
-  //   try {
-  //     supabase.auth.onAuthStateChange((event, session) => {
-  //       setCurrentUser(session);
-  //     });
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
-  // getCurrentSession();
-
-  // useEffect(() => {
-  //   authStateChange();
-  // }, []);
 
   return (
     <>

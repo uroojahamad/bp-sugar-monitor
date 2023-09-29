@@ -1,6 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
-import { supabase } from "@/supabase/client";
+import { useState } from "react";
 import AddBPDetails from "@/components/bloodpressure/AddBPDetails";
 import DisplayBPDetails from "@/components/bloodpressure/DisplayBPDetails";
 import ModalBox from "@/components/modalbox/ModalBox";
@@ -16,8 +15,8 @@ export type Reading = {
   category: string;
 };
 
-const BloodPressure = ({ session }: any) => {
-  const [bpReading, setBpReading] = useState<Reading[]>([]);
+const BloodPressure = ({ session, bpData }: any) => {
+  const [bpReading, setBpReading] = useState<Reading[]>(bpData);
   const [isLoading, setIsLoading] = useState(false);
 
   //State for Modal box
@@ -30,21 +29,6 @@ const BloodPressure = ({ session }: any) => {
   const handleModalBoxClose = () => {
     setIsOpen(false);
   };
-
-  //Get blood pressure data from supabase
-  const getBPData = async () => {
-    setIsLoading(true);
-    const { data } = await supabase
-      .from("bp")
-      .select(`*`)
-      .order("id", { ascending: false });
-    if (data) setBpReading(data);
-    setIsLoading(false);
-  };
-
-  useEffect(() => {
-    getBPData();
-  }, []);
 
   return (
     <div className="w-full">

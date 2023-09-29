@@ -1,8 +1,7 @@
 import { Reading } from "@/app/page";
-import { supabase } from "@/supabase/client";
-import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import { Session } from "@supabase/supabase-js";
-// import { getCurrentSession } from "../header/Header";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
 type AddBPDetailsProps = {
   setBpReading: Dispatch<SetStateAction<Reading[]>>;
@@ -17,6 +16,8 @@ const AddBPDetails = ({
   onClose,
   session,
 }: AddBPDetailsProps) => {
+  const supabase = createClientComponentClient();
+
   const [inputState, setInputState] = useState<
     Omit<Reading, "id" | "created_at" | "category">
   >({
@@ -25,15 +26,6 @@ const AddBPDetails = ({
     pulse: 0,
     arm: "Left",
   });
-
-  // const [session, setSession] = useState<Session | null | undefined>(null);
-
-  // const getSession = async () => {
-  //   const currentSession = await getCurrentSession();
-  //   setSession(currentSession?.session);
-  // };
-
-  //Get user input from fields
 
   const handleChange = (e: any) => {
     setInputState((prevInputState) => {
@@ -95,7 +87,6 @@ const AddBPDetails = ({
       pulse: 0,
       arm: "Left",
     });
-    console.log("current reading : ", currentReading);
 
     //Modal box close
     onClose();
