@@ -1,16 +1,22 @@
 import { Reading } from "@/app/page";
 import { supabase } from "@/supabase/client";
-import { Session } from "@supabase/supabase-js";
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { getCurrentSession } from "../header/Header";
+// import { Session } from "@supabase/supabase-js";
+// import { getCurrentSession } from "../header/Header";
 
 type AddBPDetailsProps = {
   setBpReading: Dispatch<SetStateAction<Reading[]>>;
   lastID: number;
   onClose: () => void;
+  session: any;
 };
 
-const AddBPDetails = ({ setBpReading, lastID, onClose }: AddBPDetailsProps) => {
+const AddBPDetails = ({
+  setBpReading,
+  lastID,
+  onClose,
+  session,
+}: AddBPDetailsProps) => {
   const [inputState, setInputState] = useState<
     Omit<Reading, "id" | "created_at" | "category">
   >({
@@ -20,14 +26,15 @@ const AddBPDetails = ({ setBpReading, lastID, onClose }: AddBPDetailsProps) => {
     arm: "Left",
   });
 
-  const [session, setSession] = useState<Session | null | undefined>(null);
+  // const [session, setSession] = useState<Session | null | undefined>(null);
 
-  const getSession = async () => {
-    const currentSession = await getCurrentSession();
-    setSession(currentSession?.session);
-  };
+  // const getSession = async () => {
+  //   const currentSession = await getCurrentSession();
+  //   setSession(currentSession?.session);
+  // };
 
   //Get user input from fields
+
   const handleChange = (e: any) => {
     setInputState((prevInputState) => {
       return { ...prevInputState, [e.target.name]: e.target.value };
@@ -96,7 +103,7 @@ const AddBPDetails = ({ setBpReading, lastID, onClose }: AddBPDetailsProps) => {
   };
 
   useEffect(() => {
-    getSession();
+    console.log("add session : ", session?.user?.id);
   }, []);
 
   return (

@@ -8,12 +8,14 @@ type AddBloodSugarDetailsProps = {
   setSugarReading: Dispatch<SetStateAction<Reading[]>>;
   lastID: number;
   onClose: () => void;
+  session: any;
 };
 
 const AddBloodSugarDetails = ({
   setSugarReading,
   lastID,
   onClose,
+  session,
 }: AddBloodSugarDetailsProps) => {
   const [inputState, setInputState] = useState<
     Omit<Reading, "id" | "created_at" | "category">
@@ -22,7 +24,7 @@ const AddBloodSugarDetails = ({
     measure: "Before Meal",
   });
 
-  const [session, setSession] = useState<Session | null | undefined>(null);
+  // const [session, setSession] = useState<Session | null | undefined>(null);
 
   //Get user input from fields
   const handleChange = (e: any) => {
@@ -34,10 +36,10 @@ const AddBloodSugarDetails = ({
     });
   };
 
-  const getSession = async () => {
-    const currentSession = await getCurrentSession();
-    setSession(currentSession?.session);
-  };
+  // const getSession = async () => {
+  //   const currentSession = await getCurrentSession();
+  //   setSession(currentSession?.session);
+  // };
 
   //Insert data into supabase
   const insertSugarData = async (reading: Reading) => {
@@ -79,9 +81,9 @@ const AddBloodSugarDetails = ({
     insertSugarData(currentReading);
   };
 
-  useEffect(() => {
-    getSession();
-  }, []);
+  // useEffect(() => {
+  //   getSession();
+  // }, []);
 
   return (
     <>
