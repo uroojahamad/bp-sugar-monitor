@@ -16,12 +16,12 @@ export const getCurrentSession = async () => {
   }
 };
 
-const Header = () => {
+const Header = ({ session }: any) => {
   const supabase = createClientComponentClient();
   const router = useRouter();
   const pathname = usePathname();
 
-  const [currentUser, setCurrentUser] = useState<Session | null>(null);
+  // const [currentUser, setCurrentUser] = useState<Session | null>(null);
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -38,23 +38,23 @@ const Header = () => {
     setIsOpen(!isOpen);
   };
 
-  const authStateChange = async () => {
-    try {
-      supabase.auth.onAuthStateChange((event, session) => {
-        setCurrentUser(session);
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const authStateChange = async () => {
+  //   try {
+  //     supabase.auth.onAuthStateChange((event, session) => {
+  //       setCurrentUser(session);
+  //     });
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
-  getCurrentSession();
+  // getCurrentSession();
 
-  useEffect(() => {
-    authStateChange();
-  }, []);
+  // useEffect(() => {
+  //   authStateChange();
+  // }, []);
 
-  console.log("Current user : ", currentUser);
+  console.log("Current user : ", session);
 
   return (
     <>
@@ -104,7 +104,7 @@ const Header = () => {
                 Blood Sugar
               </Link>
 
-              {!currentUser ? (
+              {!session ? (
                 <Link
                   href="/login"
                   className="px-8 py-2 text-white bg-cyan-700 border-2 border-cyan-700 rounded-lg shadow-md hover:bg-cyan-800"
@@ -114,7 +114,7 @@ const Header = () => {
               ) : (
                 <>
                   <h2 className="tracking-widest text-sm">
-                    Welcome {currentUser?.user?.user_metadata?.name} !
+                    Welcome {session?.user?.user_metadata?.name} !
                   </h2>
                   <button
                     className="px-8 py-2 text-white bg-cyan-700 border-2 border-cyan-700 rounded-lg shadow-md hover:bg-cyan-800"
@@ -133,10 +133,10 @@ const Header = () => {
               isOpen ? "flex" : "hidden"
             } flex-col items-center self-end text-lg w-full min-h-screen px-6 py-1 pt-24 pb-4 tracking-widest text-white uppercase divide-y-2 divide-gray-500 opacity-90 bg-gray-900`}
           >
-            {currentUser && (
+            {session && (
               <div className="w-full py-3 text-center">
                 <h2 className="tracking-widest text-sm">
-                  Welcome {currentUser?.user?.user_metadata?.name} !
+                  Welcome {session?.user?.user_metadata?.name} !
                 </h2>
               </div>
             )}
@@ -148,7 +148,7 @@ const Header = () => {
             <div className="w-full py-3 text-center">
               <Link href="/bloodsugar">Blood Sugar</Link>
             </div>
-            {!currentUser ? (
+            {!session ? (
               <div className="w-full py-3 text-center">
                 <Link href="/login" className="block hover:text-red-400">
                   Login

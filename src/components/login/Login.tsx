@@ -1,8 +1,9 @@
-// import { supabase } from "@/supabase/client";
+"use client";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import Image from "next/image";
-// import Link from "next/link";
 import React, { useState } from "react";
+// import Link from "next/link";
+// import { supabase } from "@/supabase/client";
 
 const Login = () => {
   const loginWithGoogle = async () => {
