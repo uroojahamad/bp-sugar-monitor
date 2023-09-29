@@ -1,14 +1,14 @@
 import { Reading } from "@/app/page";
 import { supabase } from "@/supabase/client";
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
-// import { Session } from "@supabase/supabase-js";
+import { Session } from "@supabase/supabase-js";
 // import { getCurrentSession } from "../header/Header";
 
 type AddBPDetailsProps = {
   setBpReading: Dispatch<SetStateAction<Reading[]>>;
   lastID: number;
   onClose: () => void;
-  session: any;
+  session: Session;
 };
 
 const AddBPDetails = ({
@@ -101,10 +101,6 @@ const AddBPDetails = ({
     onClose();
     insertBPData(currentReading);
   };
-
-  useEffect(() => {
-    console.log("add session : ", session?.user?.id);
-  }, []);
 
   return (
     <>

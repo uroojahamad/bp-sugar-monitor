@@ -1,10 +1,8 @@
 "use client";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-// import { supabase } from "@/supabase/client";
-import { Session } from "@supabase/supabase-js";
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 export const getCurrentSession = async () => {
   const supabase = createClientComponentClient();
@@ -54,8 +52,6 @@ const Header = ({ session }: any) => {
   //   authStateChange();
   // }, []);
 
-  console.log("Current user : ", session);
-
   return (
     <>
       <div className="overflow-x-hidden border">
@@ -75,7 +71,6 @@ const Header = ({ session }: any) => {
             {/* Heading */}
             <div className="text-center">
               <h1 className="md:hidden tracking-widest text-lg font-bold">
-                {/* Heart Buddy Tracker */}
                 {pathname === "/bloodsugar" ? "Blood Sugar" : "Blood Pressure"}
               </h1>
               <h1 className="hidden md:flex tracking-widest text-lg font-bold">
@@ -133,13 +128,16 @@ const Header = ({ session }: any) => {
               isOpen ? "flex" : "hidden"
             } flex-col items-center self-end text-lg w-full min-h-screen px-6 py-1 pt-24 pb-4 tracking-widest text-white uppercase divide-y-2 divide-gray-500 opacity-90 bg-gray-900`}
           >
-            {session && (
-              <div className="w-full py-3 text-center">
-                <h2 className="tracking-widest text-sm">
+            <div className="w-full py-3 text-center">
+              <h1 className="text-red-600 font-bold text-lg">
+                Heart Buddy Tracker
+              </h1>
+              {session && (
+                <h2 className="tracking-widest text-sm mt-4">
                   Welcome {session?.user?.user_metadata?.name} !
                 </h2>
-              </div>
-            )}
+              )}
+            </div>
             <div className="w-full py-3 text-center">
               <Link href="/" className="block hover:text-red-400">
                 Blood Pressure

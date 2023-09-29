@@ -2,13 +2,13 @@ import { Reading } from "@/app/bloodsugar/page";
 import { supabase } from "@/supabase/client";
 import { Session } from "@supabase/supabase-js";
 import React, { Dispatch, SetStateAction, useState, useEffect } from "react";
-import { getCurrentSession } from "../header/Header";
+// import { getCurrentSession } from "../header/Header";
 
 type AddBloodSugarDetailsProps = {
   setSugarReading: Dispatch<SetStateAction<Reading[]>>;
   lastID: number;
   onClose: () => void;
-  session: any;
+  session: Session;
 };
 
 const AddBloodSugarDetails = ({
@@ -80,10 +80,6 @@ const AddBloodSugarDetails = ({
     onClose();
     insertSugarData(currentReading);
   };
-
-  // useEffect(() => {
-  //   getSession();
-  // }, []);
 
   return (
     <>
