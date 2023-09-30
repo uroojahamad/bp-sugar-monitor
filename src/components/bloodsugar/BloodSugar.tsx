@@ -3,6 +3,8 @@ import AddBloodSugarDetails from "@/components/bloodsugar/AddBloodSugarDetails";
 import DisplayBloodSugarDetails from "@/components/bloodsugar/DisplayBloodSugarDetails";
 import Header from "@/components/header/Header";
 import ModalBox from "@/components/modalbox/ModalBox";
+import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
 
 export type Reading = {
@@ -51,9 +53,10 @@ const BloodSugar = ({ session, bloodSugarData }: any) => {
           ) : (
             <>
               <button
-                className="w-full flex justify-center items-center p-2 space-x-4 font-sans font-bold text-white rounded-full shadow-lg px-9 bg-cyan-700 shadow-cyan-100 hover:bg-opacity-90 hover:shadow-lg border transition hover:-translate-y-0.5 duration-150 mb-3"
+                className="w-full flex justify-center items-center p-2 space-x-4 font-sans font-bold text-white rounded-full shadow-lg px-9 bg-violet-500 shadow-violet-100 hover:bg-opacity-90 hover:shadow-lg border transition hover:-translate-y-0.5 duration-150 mb-3"
                 onClick={handleModalBoxOpen}
               >
+                <FontAwesomeIcon icon={faPlusCircle} className="mr-4" />
                 Add
               </button>
 
@@ -61,8 +64,10 @@ const BloodSugar = ({ session, bloodSugarData }: any) => {
                 <div className="w-full p-5 md:p-10">
                   <div className="flex flex-col justify-between items-center gap-10">
                     <div className="text-lg font-extralight">
-                      <p className="text-center">No records to show</p>
-                      <p>Press + to add your records</p>
+                      <span className="text-center block">
+                        No records to show
+                      </span>
+                      <span>Press &quot;Add&quot; to record your reading</span>
                     </div>
                   </div>
                 </div>

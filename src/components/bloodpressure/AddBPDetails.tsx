@@ -97,14 +97,14 @@ const AddBPDetails = ({
     <>
       <div
         id="innerbox"
-        className="z-50 border border-black w-96 mx-6 md:w-2/5 h-fit py-3 flex flex-col gap-2 justify-center items-center bg-slate-200 rounded-xl"
+        className="z-50 border border-slate-200 mx-8 w-96 px-6 md:px-10 md:w-2/5 h-fit py-12 flex flex-col gap-2 justify-center items-center bg-slate-200 rounded-xl"
       >
-        <h1 className="text-2xl font-bold p-2 font-mono text-center">
-          Add Blood Pressure Reading
+        <h1 className="text-2xl font-bold p-2 mb-4 font-mono text-center">
+          Record BP Reading
         </h1>
         <input
           type="number"
-          className="w-11/12 p-4 border border-gray-300 rounded-md placeholder:font-mono placeholder:text-xs md:placeholder:text-sm"
+          className="w-full p-4 border border-gray-300 rounded-md placeholder:font-mono placeholder:text-xs md:placeholder:text-sm"
           name="systolic"
           placeholder="Enter Systolic Pressure"
           value={inputState.systolic || ""}
@@ -112,7 +112,7 @@ const AddBPDetails = ({
         />
         <input
           type="number"
-          className="w-11/12 p-4 border border-gray-300 rounded-md placeholder:font-mono placeholder:text-xs md:placeholder:text-sm"
+          className="w-full p-4 border border-gray-300 rounded-md placeholder:font-mono placeholder:text-xs md:placeholder:text-sm"
           name="diastolic"
           placeholder="Enter Diastolic Pressure"
           value={inputState.diastolic || ""}
@@ -120,19 +120,19 @@ const AddBPDetails = ({
         />
         <input
           type="number"
-          className="w-11/12 p-4 border border-gray-300 rounded-md placeholder:font-mono placeholder:text-xs md:placeholder:text-sm"
+          className="w-full p-4 border border-gray-300 rounded-md placeholder:font-mono placeholder:text-xs md:placeholder:text-sm"
           name="pulse"
           placeholder="Enter Pulse reading"
           value={inputState.pulse || ""}
           onChange={handleChange}
         />
-        <div className="flex gap-3 mt-5">
+        <div className="flex gap-3 mt-2">
           <button
             type="button"
             className={`border ${
               inputState.arm === "Left"
-                ? "border-blue-800 bg-blue-100"
-                : "border-gray-700 bg-gray-100 hover:bg-green-300"
+                ? "border-violet-800 bg-violet-100"
+                : "border-slate-700 bg-gray-100 hover:bg-slate-200"
             }  outline-2 p-2 w-36 md:w-32 lg:w-40 rounded-full text-md font-mono`}
             name="arm"
             value="Left"
@@ -144,8 +144,8 @@ const AddBPDetails = ({
             type="button"
             className={`border ${
               inputState.arm === "Right"
-                ? "border-blue-800 bg-blue-100"
-                : "border-gray-700 bg-gray-100 hover:bg-green-300"
+                ? "border-violet-800 bg-violet-100"
+                : "border-slate-700 bg-gray-100 hover:bg-slate-200"
             }  outline-2 p-2 w-36 md:w-32 lg:w-40 rounded-full text-md font-mono`}
             name="arm"
             value="Right"
@@ -154,15 +154,15 @@ const AddBPDetails = ({
             Right Arm
           </button>
         </div>
-        <div className="mt-3 p-2 w-11/12 flex flex-col lg:flex-row gap-2 justify-center items-center">
+        <div className="mt-8 p-2 w-full flex flex-col lg:flex-row gap-2 justify-center items-center">
           <button
-            className="w-full flex justify-center items-center p-2 space-x-4 font-sans font-bold text-white rounded-md shadow-lg px-9 md:px-0 bg-red-500 shadow-cyan-100 hover:bg-opacity-90 hover:shadow-lg border transition hover:-translate-y-0.5 duration-150"
+            className="w-full flex justify-center items-center p-2 space-x-4 font-sans font-bold text-white rounded-md shadow-lg px-9 md:px-0 bg-red-500 shadow-violet-100 hover:bg-opacity-90 hover:shadow-lg border transition hover:-translate-y-0.5 duration-150"
             onClick={onClose}
           >
             Cancel
           </button>
           <button
-            className="w-full flex justify-center items-center p-2 space-x-4 font-sans font-bold text-white rounded-md shadow-lg px-9 md:px-0 bg-cyan-700 shadow-cyan-100 hover:bg-opacity-90 hover:shadow-lg border transition hover:-translate-y-0.5 duration-150"
+            className="w-full flex justify-center items-center p-2 space-x-4 font-sans font-bold text-white rounded-md shadow-lg px-9 md:px-0 bg-violet-700 shadow-violet-100 hover:bg-opacity-90 hover:shadow-lg border transition hover:-translate-y-0.5 duration-150"
             onClick={handleSubmit}
           >
             Add Record
