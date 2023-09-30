@@ -10,6 +10,8 @@ export const metadata: Metadata = {
     "An app that helps to track your blood pressure and blood sugar levels",
 };
 
+export const dynamic = "force-dynamic";
+
 export default function RootLayout({
   children,
 }: {
