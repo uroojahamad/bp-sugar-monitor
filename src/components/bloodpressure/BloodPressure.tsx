@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 
 export type Reading = {
-  id: number;
+  id: string;
   systolic: number;
   diastolic: number;
   pulse: number;

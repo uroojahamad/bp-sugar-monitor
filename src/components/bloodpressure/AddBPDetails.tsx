@@ -2,6 +2,7 @@ import { Reading } from "@/app/page";
 import React, { Dispatch, SetStateAction, useState } from "react";
 import { Session } from "@supabase/supabase-js";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { v4 as uuidv4 } from "uuid";
 
 type AddBPDetailsProps = {
   setBpReading: Dispatch<SetStateAction<Reading[]>>;
@@ -72,7 +73,7 @@ const AddBPDetails = ({
     }
 
     const currentReading = {
-      // id: lastID + 1,
+      id: uuidv4(),
       created_at: new Date(),
       category: calculateCategory(),
       user_id: session?.user?.id,
