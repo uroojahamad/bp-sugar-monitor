@@ -35,7 +35,8 @@ const AddBPDetails = ({
 
   //Insert data into supabase
   const insertBPData = async (reading: Reading) => {
-    await supabase.from("bp").insert([reading]);
+    const { error } = await supabase.from("bp").insert([reading]);
+    console.log(error);
   };
 
   //Check BP Category
@@ -90,6 +91,7 @@ const AddBPDetails = ({
 
     //Modal box close
     onClose();
+    console.log(currentReading);
     insertBPData(currentReading);
   };
 
