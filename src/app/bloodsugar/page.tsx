@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import BloodSugar from "@/components/bloodsugar/BloodSugar";
 
 export type Reading = {
-  id: number;
+  id: string;
   sugar_level: number;
   measure: "Before Meal" | "After Meal" | "At Bedtime" | "Fasting";
   created_at: Date;

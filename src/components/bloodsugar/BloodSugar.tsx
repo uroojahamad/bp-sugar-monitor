@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
 
 export type Reading = {
-  id: number;
+  id: string;
   sugar_level: number;
   measure: "Before Meal" | "After Meal" | "At Bedtime" | "Fasting";
   created_at: Date;
@@ -81,7 +81,6 @@ const BloodSugar = ({ session, bloodSugarData }: any) => {
       {isOpen && (
         <ModalBox onClose={handleModalBoxClose}>
           <AddBloodSugarDetails
-            lastID={sugarReading[0]?.id || 0}
             setSugarReading={setSugarReading}
             onClose={handleModalBoxClose}
             session={session}

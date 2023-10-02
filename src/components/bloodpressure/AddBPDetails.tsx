@@ -6,14 +6,12 @@ import { v4 as uuidv4 } from "uuid";
 
 type AddBPDetailsProps = {
   setBpReading: Dispatch<SetStateAction<Reading[]>>;
-  // lastID: number;
   onClose: () => void;
   session: Session;
 };
 
 const AddBPDetails = ({
   setBpReading,
-  // lastID,
   onClose,
   session,
 }: AddBPDetailsProps) => {
@@ -36,9 +34,8 @@ const AddBPDetails = ({
 
   //Insert data into supabase
   const insertBPData = async (reading: Reading) => {
-    const { data, error } = await supabase.from("bp").insert([reading]);
-    console.log(error);
-    console.log(data);
+    const { error } = await supabase.from("bp").insert([reading]);
+    console.log("Error while add data to supabase : ", error);
   };
 
   //Check BP Category

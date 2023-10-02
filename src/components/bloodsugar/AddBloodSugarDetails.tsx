@@ -2,17 +2,16 @@ import { Reading } from "@/app/bloodsugar/page";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { Session } from "@supabase/supabase-js";
 import React, { Dispatch, SetStateAction, useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 
 type AddBloodSugarDetailsProps = {
   setSugarReading: Dispatch<SetStateAction<Reading[]>>;
-  lastID: number;
   onClose: () => void;
   session: Session;
 };
 
 const AddBloodSugarDetails = ({
   setSugarReading,
-  lastID,
   onClose,
   session,
 }: AddBloodSugarDetailsProps) => {
@@ -55,7 +54,7 @@ const AddBloodSugarDetails = ({
   const handleSubmit = (e: any) => {
     e.preventDefault();
     const currentReading = {
-      id: lastID + 1,
+      id: uuidv4(),
       created_at: new Date(),
       category: categorizeBloodSugar(),
       user_id: session?.user?.id,
