@@ -5,14 +5,14 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
 type AddBPDetailsProps = {
   setBpReading: Dispatch<SetStateAction<Reading[]>>;
-  lastID: number;
+  // lastID: number;
   onClose: () => void;
   session: Session;
 };
 
 const AddBPDetails = ({
   setBpReading,
-  lastID,
+  // lastID,
   onClose,
   session,
 }: AddBPDetailsProps) => {
@@ -70,7 +70,7 @@ const AddBPDetails = ({
     }
 
     const currentReading = {
-      id: lastID + 1,
+      // id: lastID + 1,
       created_at: new Date(),
       category: calculateCategory(),
       user_id: session?.user?.id,

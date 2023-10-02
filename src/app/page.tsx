@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import BloodPressure from "@/components/bloodpressure/BloodPressure";
 
 export type Reading = {
-  id: number;
+  // id: number;
   systolic: number;
   diastolic: number;
   pulse: number;

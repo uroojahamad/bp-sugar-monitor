@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 
 export type Reading = {
-  id: number;
+  // id: number;
   systolic: number;
   diastolic: number;
   pulse: number;
@@ -66,7 +66,7 @@ const BloodPressure = ({ session, bpData }: any) => {
       {isOpen && (
         <ModalBox onClose={handleModalBoxClose}>
           <AddBPDetails
-            lastID={bpReading[0]?.id || 0}
+            // lastID={bpReading[0]?.id || 0}
             setBpReading={setBpReading}
             onClose={handleModalBoxClose}
             session={session}
