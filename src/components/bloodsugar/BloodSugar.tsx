@@ -60,10 +60,6 @@ const BloodSugar = ({ session, bloodSugarData }: any) => {
                 <FontAwesomeIcon icon={faPlusCircle} className="mr-4" />
                 Add
               </button>
-              <div className="w-full h-96 border border-black">
-                <BloodSugarChart />
-              </div>
-
               {sugarReading.length === 0 ? (
                 <div className="w-full p-5 md:p-10">
                   <div className="flex flex-col justify-between items-center gap-10">
@@ -76,7 +72,14 @@ const BloodSugar = ({ session, bloodSugarData }: any) => {
                   </div>
                 </div>
               ) : (
-                <DisplayBloodSugarDetails sugarReading={sugarReading} />
+                <div className="flex flex-1 flex-row align-start space-x-32">
+                  <div className="flex flex-1 flex-col ">
+                    <DisplayBloodSugarDetails sugarReading={sugarReading} />
+                  </div>
+                  <div className="flex flex-1 align-start h-96">
+                    <BloodSugarChart session={session} />
+                  </div>
+                </div>
               )}
             </>
           )}

@@ -50,7 +50,6 @@ const BloodPressure = ({ session, bpData }: any) => {
             <FontAwesomeIcon icon={faPlusCircle} className="mr-4" />
             Add
           </button>
-          <BloodPressureChart />
           {bpReading.length === 0 ? (
             <div className="w-full p-5 md:p-10">
               <div className="flex flex-col justify-between items-center gap-10">
@@ -61,7 +60,14 @@ const BloodPressure = ({ session, bpData }: any) => {
               </div>
             </div>
           ) : (
-            <DisplayBPDetails bpReading={bpReading} />
+            <div className="flex flex-1 flex-row align-start space-x-32">
+              <div className="flex flex-1 flex-col">
+                <DisplayBPDetails bpReading={bpReading} />
+              </div>
+              <div className="flex flex-1 align-start h-96">
+                <BloodPressureChart session={session} />
+              </div>
+            </div>
           )}
         </div>
       </div>

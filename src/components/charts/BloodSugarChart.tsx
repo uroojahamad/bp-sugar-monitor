@@ -3,15 +3,16 @@ import React, { useEffect, useState } from "react";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Pie } from "react-chartjs-2";
 import { generateChartData } from "@/utils/generateChartData";
+import { Session } from "@supabase/supabase-js";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-const BloodSugarChart = () => {
+const BloodSugarChart = ({ session }: { session: Session }) => {
   const [bsRecords, setBsRecords] = useState([]);
 
   const getBsRecords = async () => {
     const response = await fetch(
-      "https://scattered-violet.cmd.outerbase.io/bs-chart"
+      `https://scattered-violet.cmd.outerbase.io/bs-chart?user_id=${session?.user?.id}`
     );
     const result = await response.json();
     setBsRecords(result?.response?.items);
