@@ -6,6 +6,7 @@ import ModalBox from "@/components/modalbox/ModalBox";
 import Header from "@/components/header/Header";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
+import BloodPressureChart from "../charts/BloodPressureChart";
 
 export type Reading = {
   id: string;
@@ -49,6 +50,7 @@ const BloodPressure = ({ session, bpData }: any) => {
             <FontAwesomeIcon icon={faPlusCircle} className="mr-4" />
             Add
           </button>
+          <BloodPressureChart />
           {bpReading.length === 0 ? (
             <div className="w-full p-5 md:p-10">
               <div className="flex flex-col justify-between items-center gap-10">

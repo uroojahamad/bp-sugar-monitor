@@ -6,6 +6,7 @@ import ModalBox from "@/components/modalbox/ModalBox";
 import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
+import BloodSugarChart from "../charts/BloodSugarChart";
 
 export type Reading = {
   id: string;
@@ -59,7 +60,7 @@ const BloodSugar = ({ session, bloodSugarData }: any) => {
                 <FontAwesomeIcon icon={faPlusCircle} className="mr-4" />
                 Add
               </button>
-
+              <BloodSugarChart />
               {sugarReading.length === 0 ? (
                 <div className="w-full p-5 md:p-10">
                   <div className="flex flex-col justify-between items-center gap-10">
