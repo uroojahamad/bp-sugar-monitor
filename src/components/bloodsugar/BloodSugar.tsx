@@ -60,7 +60,7 @@ const BloodSugar = ({ session, bloodSugarData }: any) => {
                 <FontAwesomeIcon icon={faPlusCircle} className="mr-4" />
                 Add
               </button>
-              <div className="w-1/2 border border-black">
+              <div className="w-full h-96 border border-black">
                 <BloodSugarChart />
               </div>
 

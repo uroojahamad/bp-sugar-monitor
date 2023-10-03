@@ -30,8 +30,8 @@ const BloodSugarChart = () => {
   return (
     <Pie
       data={data}
-      width={50}
-      height={50}
+      width={100}
+      height={100}
       options={{ maintainAspectRatio: false }}
     />
   );
