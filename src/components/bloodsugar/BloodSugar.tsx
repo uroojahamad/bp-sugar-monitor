@@ -72,11 +72,11 @@ const BloodSugar = ({ session, bloodSugarData }: any) => {
                   </div>
                 </div>
               ) : (
-                <div className="flex flex-1 flex-row align-start space-x-32">
+                <div className="flex flex-1 flex-col-reverse md:flex-row align-start md:space-x-32 m-4">
                   <div className="flex flex-1 flex-col ">
                     <DisplayBloodSugarDetails sugarReading={sugarReading} />
                   </div>
-                  <div className="flex flex-1 align-start h-96">
+                  <div className="flex flex-1 align-start mx-3 md:mx-0 md:h-96 mb-3 md:mb-0">
                     <BloodSugarChart session={session} />
                   </div>
                 </div>

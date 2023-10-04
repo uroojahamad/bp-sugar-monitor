@@ -31,8 +31,8 @@ const BloodPressureChart = ({ session }: { session: Session }) => {
   return (
     <Pie
       data={data}
-      width={250}
-      height={250}
+      width={200}
+      height={200}
       options={{ maintainAspectRatio: false }}
     />
   );
