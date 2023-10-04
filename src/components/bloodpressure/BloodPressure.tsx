@@ -62,7 +62,10 @@ const BloodPressure = ({ session, bpData }: any) => {
           ) : (
             <div className="flex flex-1 flex-col-reverse md:flex-row align-start md:space-x-32 m-4">
               <div className="flex flex-1 flex-col">
-                <DisplayBPDetails bpReading={bpReading} />
+                <DisplayBPDetails
+                  bpReading={bpReading}
+                  setBpReading={setBpReading}
+                />
               </div>
               <div className="flex flex-1 align-start mx-3 md:mx-0 md:h-96 mb-3 md:mb-0">
                 <BloodPressureChart session={session} />

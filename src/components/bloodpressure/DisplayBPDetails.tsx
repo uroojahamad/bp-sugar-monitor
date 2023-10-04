@@ -6,14 +6,35 @@ import {
   faTrashCan,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import dayjs from "dayjs";
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 
 type DisplayBPDetailsProps = {
+  setBpReading: Dispatch<SetStateAction<Reading[]>>;
   bpReading: Reading[];
 };
 
-const DisplayBPDetails = ({ bpReading }: DisplayBPDetailsProps) => {
+const DisplayBPDetails = ({
+  bpReading,
+  setBpReading,
+}: DisplayBPDetailsProps) => {
+  const supabase = createClientComponentClient();
+
+  const deleteBpData = async (id: string) => {
+    const { error } = await supabase.from("bp").delete().eq("id", id);
+    if (error) {
+      console.log("Error while deleting a record: ", error);
+    }
+  };
+
+  const handleDelete = (id: string) => {
+    setBpReading((prevReading) => {
+      return prevReading.filter((reading) => reading.id !== id);
+    });
+    deleteBpData(id);
+  };
+
   return (
     <>
       {bpReading.map((reading) => {
@@ -52,7 +73,10 @@ const DisplayBPDetails = ({ bpReading }: DisplayBPDetailsProps) => {
                 </p>
               </div>
             </div>
-            <div className="absolute top-2 right-3">
+            <div
+              className="absolute top-2 right-3 cursor-pointer"
+              onClick={() => handleDelete(reading.id)}
+            >
               <FontAwesomeIcon icon={faTrashCan} color="white" />
             </div>
           </div>

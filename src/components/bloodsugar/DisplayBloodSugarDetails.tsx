@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import dayjs from "dayjs";
 import { Reading } from "@/app/bloodsugar/page";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -7,12 +7,32 @@ import {
   faClock,
   faTrashCan,
 } from "@fortawesome/free-solid-svg-icons";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
 type DisplayDetailsProps = {
+  setSugarReading: Dispatch<SetStateAction<Reading[]>>;
   sugarReading: Reading[];
 };
 
-const DisplayBloodSugarDetails = ({ sugarReading }: DisplayDetailsProps) => {
+const DisplayBloodSugarDetails = ({
+  sugarReading,
+  setSugarReading,
+}: DisplayDetailsProps) => {
+  const supabase = createClientComponentClient();
+
+  const deleteBloodSugarData = async (id: string) => {
+    const { error } = await supabase.from("bloodsugar").delete().eq("id", id);
+    if (error) {
+      console.log("Error while deleting a record: ", error);
+    }
+  };
+
+  const handleDelete = (id: string) => {
+    setSugarReading((prevReading) => {
+      return prevReading.filter((reading) => reading.id !== id);
+    });
+    deleteBloodSugarData(id);
+  };
   return (
     <>
       {sugarReading.map((reading) => {
@@ -44,7 +64,10 @@ const DisplayBloodSugarDetails = ({ sugarReading }: DisplayDetailsProps) => {
                 </p>
               </div>
             </div>
-            <div className="absolute top-2 right-3">
+            <div
+              className="absolute top-2 right-3 cursor-pointer"
+              onClick={() => handleDelete(reading.id)}
+            >
               <FontAwesomeIcon icon={faTrashCan} color="white" />
             </div>
           </div>
