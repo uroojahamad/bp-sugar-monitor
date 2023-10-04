@@ -2,7 +2,11 @@ import React from "react";
 import dayjs from "dayjs";
 import { Reading } from "@/app/bloodsugar/page";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBowlRice, faClock } from "@fortawesome/free-solid-svg-icons";
+import {
+  faBowlRice,
+  faClock,
+  faTrashCan,
+} from "@fortawesome/free-solid-svg-icons";
 
 type DisplayDetailsProps = {
   sugarReading: Reading[];
@@ -14,7 +18,7 @@ const DisplayBloodSugarDetails = ({ sugarReading }: DisplayDetailsProps) => {
       {sugarReading.map((reading) => {
         return (
           <div
-            className="bg-slate-800 p-2 mx-6 rounded-2xl my-1 w-full"
+            className="bg-slate-800 p-2 mx-6 rounded-2xl my-1 w-full relative"
             key={reading.id}
           >
             <div className="flex flex-row justify-center items-center rounded-l-xl">
@@ -39,6 +43,9 @@ const DisplayBloodSugarDetails = ({ sugarReading }: DisplayDetailsProps) => {
                   {dayjs(reading.created_at).format("YYYY/MM/DD hh:mm A")}
                 </p>
               </div>
+            </div>
+            <div className="absolute top-2 right-3">
+              <FontAwesomeIcon icon={faTrashCan} color="white" />
             </div>
           </div>
         );
