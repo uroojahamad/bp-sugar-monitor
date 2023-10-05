@@ -72,8 +72,8 @@ const BloodSugar = ({ session, bloodSugarData }: any) => {
                   </div>
                 </div>
               ) : (
-                <div className="flex flex-1 flex-col-reverse md:flex-row align-start md:space-x-32 m-4">
-                  <div className="flex flex-1 flex-col ">
+                <div className="w-full flex flex-1 flex-col-reverse md:flex-row align-start md:space-x-32 m-4">
+                  <div className="w-full flex flex-1 flex-col justify-center items-center md:justify-start md:items-start">
                     <DisplayBloodSugarDetails
                       sugarReading={sugarReading}
                       setSugarReading={setSugarReading}
